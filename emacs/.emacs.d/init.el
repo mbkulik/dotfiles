@@ -8,6 +8,10 @@
 
 ;; disable menu bar
 (menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode 0)
+
+(global-linum-mode t)
 
 ;; stop splash screen from showing
 (setq inhibit-splash-screen t)
@@ -49,6 +53,10 @@
 (setq compilation-read-command nil)
 
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)`
+
+;; spell check in tex mode
+(add-hook 'tex-mode-hook
+          #'(lambda () (setq ispell-parser 'tex)))
 
 ;; whitespace highlighting
 (require 'whitespace)
