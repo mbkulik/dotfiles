@@ -79,22 +79,11 @@
 
 (require 'use-package)
 
-;;;org-mode
-(use-package org
-  :ensure t)
-
-;;;writeroom-mode
-(use-package writeroom-mode
-  :ensure t)
-
 ;;;markdown-mode
 (use-package markdown-mode
-  :ensure t)
-
-(autoload 'writeroom-mode "writeroom-mode" "Writeroom Mode." t)
-(autoload 'org-mode "org-mode" "Org Mode." t)
-
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
