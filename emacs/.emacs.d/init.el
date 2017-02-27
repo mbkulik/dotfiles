@@ -58,6 +58,9 @@
 (add-hook 'tex-mode-hook
           #'(lambda () (setq ispell-parser 'tex)))
 
+;; remove trailing whitespace on save
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 ;; whitespace highlighting
 (require 'whitespace)
 (setq whitespace-line-column 80)
@@ -68,7 +71,8 @@
 ;; install and autoload emacs packages
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			 ("melpa" . "http://melpa.milkbox.net/packages/")))
+                         ("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("elpy" . "https://jorgenschaefer.github.io/packages/")))
 
 (package-initialize)
 
@@ -86,4 +90,28 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init (setq markdown-command "pandoc"))
+
+;;;elpy
+(use-package elpy
+  :ensure t)
+
+(elpy-enable)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(elpy-rpc-python-command "python3")
+ '(python-shell-extra-pythonpaths (quote ("~/.local/lib/python35/site-packages")))
+ '(python-shell-interpreter "python3"))
+
+;;;writegood-mode
+(use-package writegood-mode
+  :ensure t
+  :bind ("C-c g" . writegood-mode))
+
+;;lua-mode (for pico-8)
+(use-package lua-mode
+  :ensure t
+  :mode ("\\.p8\\'" . lua-mode))
