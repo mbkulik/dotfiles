@@ -90,7 +90,7 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc"))
+  :init (setq markdown-command "pandoc -f markdown_github -t html5 -s --css ~/lib/pandoc.css"))
 
 ;;;elpy
 (use-package elpy
@@ -110,8 +110,3 @@
 (use-package writegood-mode
   :ensure t
   :bind ("C-c g" . writegood-mode))
-
-;;lua-mode (for pico-8)
-(use-package lua-mode
-  :ensure t
-  :mode ("\\.p8\\'" . lua-mode))
