@@ -30,7 +30,6 @@
 
 ;; GUI Only Stuff
 (if window-system (load-theme 'tango-dark))
-(if window-system (tool-bar-mode -1))
 
 ;; Text Only Stuff
 (if (not window-system) (setq frame-background-mode 'dark))
@@ -90,7 +89,7 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc -f markdown_github -t html5 -s --css ~/lib/pandoc.css"))
+  :init (setq markdown-command "pandoc -f markdown_github -t html5 -s --css ~/lib/pandoc.css --self-contained"))
 
 ;;;elpy
 (use-package elpy
@@ -98,7 +97,7 @@
 
 (elpy-enable)
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
+ ;; custom-set-variables added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
