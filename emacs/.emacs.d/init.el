@@ -16,6 +16,9 @@
 ;; stop splash screen from showing
 (setq inhibit-splash-screen t)
 
+;; empty scratch buffer
+(setq initial-scratch-message nil)
+
 ;; disable version control
 (setq vc-handled-backends ())
 
