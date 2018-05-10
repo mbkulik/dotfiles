@@ -112,3 +112,25 @@
 (use-package writegood-mode
   :ensure t
   :bind ("C-c g" . writegood-mode))
+
+;;;elfeed
+(use-package elfeed
+  :ensure t
+  :bind ("C-x w" . elfeed))
+
+(setq elfeed-feeds
+      '("https://xkcd.com/rss.xml"
+        "http://omgubuntu.co.uk/feed"
+        "https://www.theminimalists.com/feed/"
+        "https://sivers.org/en.atom"
+        "https://www.phoronix.com/rss.php"
+        "https://gflint.wordpress.com/feed/"
+        "http://calnewport.com/feed"
+        "http://innovativeteacher.org/feed/"
+        "https://codeboom.wordpress.com/feed/"
+        "https://medium.com/feed/bits-and-behavior"
+        "http://feeds.feedburner.com/ComputerScienceTeacher"
+        "https://cestlaz.github.io/rss.xml"
+        "https://codinginmathclass.wordpress.com/feed/"
+        "https://computinged.wordpress.com/feed/"
+        "https://bluesabre.org/feed/"))
