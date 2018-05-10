@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+
+"""
+print ip information
+"""
+
+import requests
+
+req = requests.get('https://api.ipdata.co/')
+resp = req.json()
+
+print('{} from {}, {}, {}'.format(resp['ip'],
+                                  resp['city'],
+                                  resp['region_code'],
+                                  resp['country_code']))
