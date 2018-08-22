@@ -54,8 +54,6 @@
 (global-set-key (kbd "<f3>") 'compile)
 (setq compilation-read-command nil)
 
-(add-hook 'doc-view-mode-hook 'auto-revert-mode)`
-
 ;; spell check in tex mode
 (add-hook 'tex-mode-hook
           #'(lambda () (setq ispell-parser 'tex)))
@@ -108,6 +106,13 @@
  '(python-shell-extra-pythonpaths (quote ("~/.local/lib/python35/site-packages")))
  '(python-shell-interpreter "python3"))
 
+;;;pdf-tools
+(use-package pdf-tools
+  :ensure)
+(pdf-tools-install)
+(add-hook 'pdf-view-mode-hook (lambda () (linum-mode 0)))
+(setq-default pdf-view-display-size 'fit-page)
+
 ;;;writegood-mode
 (use-package writegood-mode
   :ensure t
@@ -118,6 +123,7 @@
   :ensure t
   :bind ("C-x w" . elfeed))
 
+(add-hook 'elfeed-search-mode-hook (lambda () (linum-mode 0)))
 (setq elfeed-feeds
       '("https://xkcd.com/rss.xml"
         "http://omgubuntu.co.uk/feed"
