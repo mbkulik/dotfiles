@@ -139,4 +139,4 @@
         "https://cestlaz.github.io/rss.xml"
         "https://codinginmathclass.wordpress.com/feed/"
         "https://computinged.wordpress.com/feed/"
-        "https://bluesabre.org/feed/"))
+        "https://planet.kde.org/rss20.xml"))
