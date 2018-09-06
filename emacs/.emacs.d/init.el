@@ -142,4 +142,5 @@
         "https://cestlaz.github.io/rss.xml"
         "https://codinginmathclass.wordpress.com/feed/"
         "https://computinged.wordpress.com/feed/"
-        "https://planet.kde.org/rss20.xml"))
+        "https://planet.kde.org/rss20.xml"
+        "https://www.talospace.com/feeds/posts/default"))
