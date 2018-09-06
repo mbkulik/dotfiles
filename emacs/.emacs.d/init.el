@@ -68,6 +68,9 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'latex-mode-hook 'whitespace-mode)
 
+;; disable linenumbers when in eww
+(add-hook 'eww-mode-hook (lambda () (linum-mode 0)))
+
 ;; install and autoload emacs packages
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
