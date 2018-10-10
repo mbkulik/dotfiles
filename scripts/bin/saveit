@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DATA_DIR=~/Dropbox/Docs/Articles
+
+python3 -m saveit $@ >> $DATA_DIR/links.md
+pandoc $DATA_DIR/links.md -o $DATA_DIR/links.pdf
