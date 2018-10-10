@@ -1,15 +1,22 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 """
 print ip information
 """
 
 import requests
+import termcolor
 
-req = requests.get('https://api.ipdata.co/')
+req = requests.get('https://am.i.mullvad.net/json')
 resp = req.json()
 
-print('{} from {}, {}, {}'.format(resp['ip'],
-                                  resp['city'],
-                                  resp['region_code'],
-                                  resp['country_code']))
+if resp['mullvad_exit_ip']:
+    status = termcolor.colored('SECURED', 'green')
+else:
+    status = termcolor.colored('UNSECURED', 'red')
+
+
+print('{} connection from {} ({}, {})'.format(status,
+                                   resp['ip'],
+                                   resp['city'],
+                                   resp['country']))
