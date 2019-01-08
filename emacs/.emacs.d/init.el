@@ -4,7 +4,11 @@
 ;;
 
 ;; start as a server
-(server-start)
+;;(server-start)
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
 
 ;; install and autoload emacs packages
 (require 'package)
@@ -30,11 +34,11 @@
 (menu-bar-mode -1) ;; disable menubar
 (tool-bar-mode -1) ;; disable toolbar
 (scroll-bar-mode 0)
-(global-linum-mode t) ;;enable global line numbers
+;;(global-linum-mode t) ;;enable global line numbers
 (setq inhibit-splash-screen t) ;;disable splash screen
 (setq initial-scratch-message nil) ;;blank scratch buffer
-(load-theme 'tango-dark)
-(set-frame-font "Hack 11" nil t)
+(load-theme 'tango)
+(set-background-color "#FFFFDD")
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -92,6 +96,7 @@
 ;;;
 ;;; ---------------------------------------------------------------------------
 (use-package markdown-mode
+  :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -99,11 +104,11 @@
   :init (setq markdown-command "pandoc -f markdown_github -t html5 -s --css ~/lib/pandoc.css --self-contained"))
 
 
-;;; -------------------------------------------------------------------------------
+;;; ---------------------------------------------------------------------------
 ;;;
 ;;; elpy
 ;;;
-;;; -------------------------------------------------------------------------------
+;;; ---------------------------------------------------------------------------
 (use-package elpy
   :ensure t
   :config
@@ -117,22 +122,11 @@
  ;; If there is more than one, they won't work right.
  '(elpy-rpc-python-command "python3")
  '(elpy-syntax-check-command "~/.local/bin/flake8")
+ '(package-selected-packages
+   (quote
+    (elfeed writegood-mode elpy markdown-mode use-package)))
  '(python-shell-extra-pythonpaths (quote ("~/.local/lib/python35/site-packages")))
  '(python-shell-interpreter "python3"))
-
-
-;;; ---------------------------------------------------------------------------
-;;;
-;;; pdf-tools
-;;;
-;;; ---------------------------------------------------------------------------
-(use-package pdf-tools
-  :ensure t
-  :config
-  (pdf-tools-install)
-  (setq-default pdf-view-display-size 'fit-page)
-  :init
-  (add-hook 'pdf-view-mode-hook (lambda () (linum-mode 0))))
 
 
 ;;; --------------------------------------------------------------------------
@@ -141,36 +135,5 @@
 ;;;
 ;;; --------------------------------------------------------------------------
 (use-package writegood-mode
-  :bind ("C-c g" . writegood-mode))
-
-
-;;; ---------------------------------------------------------------------------
-;;;
-;;; elfeed
-;;;
-;;; ---------------------------------------------------------------------------
-(use-package elfeed
   :ensure t
-  :bind ("C-x w" . elfeed))
-
-(add-hook 'elfeed-search-mode-hook (lambda () (linum-mode 0)))
-(add-hook 'elfeed-show-mode-hook (lambda () (linum-mode 0)))
-(setq elfeed-feeds
-      '("https://xkcd.com/rss.xml"
-        "http://omgubuntu.co.uk/feed"
-        "https://www.theminimalists.com/feed/"
-        "https://sivers.org/en.atom"
-        "https://www.phoronix.com/rss.php"
-        "https://gflint.wordpress.com/feed/"
-        "http://calnewport.com/feed"
-        "http://innovativeteacher.org/feed/"
-        "https://codeboom.wordpress.com/feed/"
-        "https://medium.com/feed/bits-and-behavior"
-        "http://feeds.feedburner.com/ComputerScienceTeacher"
-        "https://cestlaz.github.io/rss.xml"
-        "https://codinginmathclass.wordpress.com/feed/"
-        "https://computinged.wordpress.com/feed/"
-        "https://www.talospace.com/feeds/posts/default"
-        "http://planet.emacsen.org/atom.xml"
-        "https://mullvad.net/en/blog/feed/rss"
-        "https://bluesabre.org/feed/"))
+  :bind ("C-c g" . writegood-mode))
