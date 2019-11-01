@@ -4,7 +4,6 @@
 ;;
 
 ;; start as a server
-;;(server-start)
 (require 'server)
 (unless (server-running-p)
   (server-start))
@@ -12,9 +11,8 @@
 
 ;; install and autoload emacs packages
 (require 'package)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
-
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
 (if (not (package-installed-p 'use-package))
@@ -30,15 +28,13 @@
 ;;
 ;;------------------------------------------------------------------------------
 
-(setq custom-safe-themes t)
-(menu-bar-mode -1) ;; disable menubar
-(tool-bar-mode -1) ;; disable toolbar
+
+(menu-bar-mode -1)
+(tool-bar-mode -1)
 (scroll-bar-mode 0)
-;;(global-linum-mode t) ;;enable global line numbers
-(setq inhibit-splash-screen t) ;;disable splash screen
-(setq initial-scratch-message nil) ;;blank scratch buffer
-(load-theme 'tango)
-(set-background-color "#FFFFDD")
+(setq inhibit-splash-screen t)
+(setq initial-scratch-message nil)
+(set-frame-font "Monospace 11" nil t)
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -58,6 +54,9 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+;; inhibit custom stuff being added to init.el
+(setq custom-file (concat user-emacs-directory "/custom.el"))
+
 ;; indentation
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -68,6 +67,9 @@
 (global-set-key (kbd "<f3>") 'compile)
 (setq compilation-read-command nil)
 
+(setq ispell-program-name "hunspell")
+(setq ispell-dictionary "en_US")
+
 
 ;; spell check in tex mode
 (add-hook 'tex-mode-hook
@@ -75,9 +77,6 @@
 
 ;; remove trailing whitespace on save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; disable linenumbers when in eww
-(add-hook 'eww-mode-hook (lambda () (linum-mode 0)))
 
 ;;; ---------------------------------------------------------------------------
 ;;;
@@ -90,44 +89,41 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'latex-mode-hook 'whitespace-mode)
 
-;;; ---------------------------------------------------------------------------
+;;; --------------------------------------------------------------------------
 ;;;
-;;; markdown-mode
+;;; Markdown Mode
 ;;;
 ;;; ---------------------------------------------------------------------------
 (use-package markdown-mode
   :ensure t
+  :defer t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc -f markdown_github -t html5 -s --css ~/lib/pandoc.css --self-contained"))
+  :init (setq markdown-command "pandoc"))
 
-
-;;; ---------------------------------------------------------------------------
+;;;--------------------------------------------------------------------------
 ;;;
 ;;; elpy
 ;;;
-;;; ---------------------------------------------------------------------------
+;;;--------------------------------------------------------------------------
 (use-package elpy
   :ensure t
-  :config
-  (elpy-enable))
+  :init
+  (elpy-enable)
+  (setq python-shell-interpreter "python3")
+  (setq elpy-rpc-python-command "python3"))
 
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(elpy-rpc-python-command "python3")
- '(elpy-syntax-check-command "~/.local/bin/flake8")
- '(package-selected-packages
-   (quote
-    (elfeed writegood-mode elpy markdown-mode use-package)))
- '(python-shell-extra-pythonpaths (quote ("~/.local/lib/python35/site-packages")))
- '(python-shell-interpreter "python3"))
-
+;;;--------------------------------------------------------------------------
+;;;
+;;; pdf-tools
+;;;
+;;;--------------------------------------------------------------------------
+(use-package pdf-tools
+  :ensure t
+  :init
+  (pdf-tools-install))
 
 ;;; --------------------------------------------------------------------------
 ;;;
@@ -136,4 +132,32 @@
 ;;; --------------------------------------------------------------------------
 (use-package writegood-mode
   :ensure t
+  :defer t
   :bind ("C-c g" . writegood-mode))
+
+;; ---------------------------------------------------------------------------
+;;
+;; elfeed (rss reader)
+;;
+;; ---------------------------------------------------------------------------
+(use-package elfeed
+  :ensure t
+  :defer t
+  :bind ("C-x w" . elfeed)
+  :init
+  (setq elfeed-feeds
+        '("http://planet.emacslife.com/atom.xml"
+          "http://calnewport.com/blog/feed/"
+          "https://xkcd.com/rss.xml"
+          "http://fedoraplanet.org/rss20.xml"
+          "http://planet.gnome.org/rss20.xml"
+          "https://www.phoronix.com/rss.php"
+          "https://gflint.wordpress.com/feed/"
+          "https://cestlaz.github.io/rss.xml"
+          "http://innovativeteacher.org/feed/"
+          "https://codinginmathclass.wordpress.com/feed/"
+          "https://setanothergoal.blogspot.com/feeds/posts/default"
+          "https://medium.com/feed/bits-and-behavior"
+          "http://blog.acthompson.net/feeds/posts/default"
+          "https://computinged.wordpress.com/feed/"
+          "https://talospace.com/feeds/posts/default")))
