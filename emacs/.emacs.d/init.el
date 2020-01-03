@@ -28,13 +28,13 @@
 ;;
 ;;------------------------------------------------------------------------------
 
-
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(scroll-bar-mode 0)
 (setq inhibit-splash-screen t)
 (setq initial-scratch-message nil)
 (set-frame-font "Monospace 11" nil t)
+(set-background-color "#FFFFEE")
+
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -62,14 +62,8 @@
 (setq-default tab-width 4)
 (setq tab-width 4)
 
-;; key bindings
-(global-set-key (kbd "<C-backspace>") 'kill-this-buffer)
-(global-set-key (kbd "<f3>") 'compile)
-(setq compilation-read-command nil)
-
 (setq ispell-program-name "hunspell")
 (setq ispell-dictionary "en_US")
-
 
 ;; spell check in tex mode
 (add-hook 'tex-mode-hook
@@ -115,16 +109,6 @@
   (setq python-shell-interpreter "python3")
   (setq elpy-rpc-python-command "python3"))
 
-;;;--------------------------------------------------------------------------
-;;;
-;;; pdf-tools
-;;;
-;;;--------------------------------------------------------------------------
-(use-package pdf-tools
-  :ensure t
-  :init
-  (pdf-tools-install))
-
 ;;; --------------------------------------------------------------------------
 ;;;
 ;;; writegood-mode
@@ -134,6 +118,17 @@
   :ensure t
   :defer t
   :bind ("C-c g" . writegood-mode))
+
+;;;
+;;;
+;;; disable-mouse
+;;;
+;;;
+(use-package disable-mouse
+  :ensure t
+  :init
+  (global-disable-mouse-mode))
+
 
 ;; ---------------------------------------------------------------------------
 ;;
@@ -160,4 +155,30 @@
           "https://medium.com/feed/bits-and-behavior"
           "http://blog.acthompson.net/feeds/posts/default"
           "https://computinged.wordpress.com/feed/"
-          "https://talospace.com/feeds/posts/default")))
+          "https://talospace.com/feeds/posts/default"
+          "https://blogs.gnome.org/shell-dev/rss")))
+
+(defun todo()
+  (interactive)
+  (switch-to-buffer "*scratch*")
+  (find-file "~/Documents/TODO.md"))
+
+(global-set-key (kbd "C-x t") 'todo)
+
+(defun insert-date ()
+  (interactive)
+  (insert "**")
+  (insert (format-time-string "%m-%d-%Y"))
+  (insert "** "))
+
+(global-set-key (kbd "C-x d") 'insert-date)
+
+;;
+;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
+;;
+(defun mbk/kill-this-buffer ()
+  "Kill the current buffer."
+  (interactive)
+  (kill-buffer (current-buffer)))
+
+(global-set-key (kbd "C-x k") 'mbk/kill-this-buffer)
