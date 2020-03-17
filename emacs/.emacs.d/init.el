@@ -11,8 +11,7 @@
 
 ;; install and autoload emacs packages
 (require 'package)
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
 (if (not (package-installed-p 'use-package))
@@ -32,9 +31,7 @@
 (tool-bar-mode -1)
 (setq inhibit-splash-screen t)
 (setq initial-scratch-message nil)
-(set-frame-font "Monospace 11" nil t)
-(set-background-color "#FFFFEE")
-
+(set-frame-font "Monospace 14" nil t)
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -97,6 +94,16 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc"))
 
+;;; --------------------------------------------------------------------------
+;;;
+;;; Modus operandi theme - visual accessibility based theme
+;;;
+;;; --------------------------------------------------------------------------
+(use-package modus-operandi-theme
+  :ensure t
+  :config
+  (load-theme 'modus-operandi t))
+
 ;;;--------------------------------------------------------------------------
 ;;;
 ;;; elpy
@@ -118,17 +125,6 @@
   :ensure t
   :defer t
   :bind ("C-c g" . writegood-mode))
-
-;;;
-;;;
-;;; disable-mouse
-;;;
-;;;
-(use-package disable-mouse
-  :ensure t
-  :init
-  (global-disable-mouse-mode))
-
 
 ;; ---------------------------------------------------------------------------
 ;;
@@ -161,7 +157,7 @@
 (defun todo()
   (interactive)
   (switch-to-buffer "*scratch*")
-  (find-file "~/Documents/TODO.md"))
+  (find-file "~/Documents/notebooks/index.md"))
 
 (global-set-key (kbd "C-x t") 'todo)
 
