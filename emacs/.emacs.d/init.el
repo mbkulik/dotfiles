@@ -11,7 +11,8 @@
 
 ;; install and autoload emacs packages
 (require 'package)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")))
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
 (if (not (package-installed-p 'use-package))
@@ -69,6 +70,9 @@
 ;; remove trailing whitespace on save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;; make docview fit window size
+(add-hook 'doc-view-mode-hook 'doc-view-fit-height-to-window)
+
 ;;; ---------------------------------------------------------------------------
 ;;;
 ;;; whitespace highlighting
@@ -96,25 +100,28 @@
 
 ;;; --------------------------------------------------------------------------
 ;;;
-;;; Modus operandi theme - visual accessibility based theme
+;;; flycheck mode
 ;;;
 ;;; --------------------------------------------------------------------------
-(use-package modus-operandi-theme
-  :ensure t
-  :config
-  (load-theme 'modus-operandi t))
+(use-package flycheck
+  :ensure t)
 
-;;;--------------------------------------------------------------------------
+;;; --------------------------------------------------------------------------
 ;;;
-;;; elpy
+;;; company-mode
 ;;;
-;;;--------------------------------------------------------------------------
-(use-package elpy
+;;; --------------------------------------------------------------------------
+(use-package company
+  :ensure t)
+
+;;; --------------------------------------------------------------------------
+;;;
+;;; lsp-mode
+;;;
+;;; --------------------------------------------------------------------------
+(use-package lsp-mode
   :ensure t
-  :init
-  (elpy-enable)
-  (setq python-shell-interpreter "python3")
-  (setq elpy-rpc-python-command "python3"))
+  :hook (python-mode . lsp-deferred))
 
 ;;; --------------------------------------------------------------------------
 ;;;
@@ -152,26 +159,13 @@
           "http://blog.acthompson.net/feeds/posts/default"
           "https://computinged.wordpress.com/feed/"
           "https://talospace.com/feeds/posts/default"
-          "https://blogs.gnome.org/shell-dev/rss")))
+          "https://blogs.gnome.org/shell-dev/rss"
+          "https://cchalpha.blogspot.com/feeds/posts/default")))
 
-(defun todo()
-  (interactive)
-  (switch-to-buffer "*scratch*")
-  (find-file "~/Documents/notebooks/index.md"))
-
-(global-set-key (kbd "C-x t") 'todo)
-
-(defun insert-date ()
-  (interactive)
-  (insert "**")
-  (insert (format-time-string "%m-%d-%Y"))
-  (insert "** "))
-
-(global-set-key (kbd "C-x d") 'insert-date)
-
+;; --------------------------------------------------------------------------
 ;;
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
-;;
+;; --------------------------------------------------------------------------
 (defun mbk/kill-this-buffer ()
   "Kill the current buffer."
   (interactive)
