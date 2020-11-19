@@ -32,7 +32,7 @@
 (tool-bar-mode -1)
 (setq inhibit-splash-screen t)
 (setq initial-scratch-message nil)
-(set-frame-font "Monospace 14" nil t)
+(set-frame-font "Monospace 12" nil t)
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -62,6 +62,7 @@
 
 (setq ispell-program-name "hunspell")
 (setq ispell-dictionary "en_US")
+(add-hook 'text-mode-hook 'flyspell-mode)
 
 ;; spell check in tex mode
 (add-hook 'tex-mode-hook
@@ -98,30 +99,17 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc"))
 
-;;; --------------------------------------------------------------------------
-;;;
-;;; flycheck mode
-;;;
-;;; --------------------------------------------------------------------------
-(use-package flycheck
-  :ensure t)
 
-;;; --------------------------------------------------------------------------
+;;; -------------------------------------------------------------------------
 ;;;
-;;; company-mode
+;;; Modus-operandi theme
 ;;;
-;;; --------------------------------------------------------------------------
-(use-package company
-  :ensure t)
-
-;;; --------------------------------------------------------------------------
-;;;
-;;; lsp-mode
-;;;
-;;; --------------------------------------------------------------------------
-(use-package lsp-mode
+;;; -------------------------------------------------------------------------
+(use-package modus-operandi-theme
   :ensure t
-  :hook (python-mode . lsp-deferred))
+  :config
+  (load-theme 'modus-operandi t))
+
 
 ;;; --------------------------------------------------------------------------
 ;;;
@@ -158,9 +146,7 @@
           "https://medium.com/feed/bits-and-behavior"
           "http://blog.acthompson.net/feeds/posts/default"
           "https://computinged.wordpress.com/feed/"
-          "https://talospace.com/feeds/posts/default"
-          "https://blogs.gnome.org/shell-dev/rss"
-          "https://cchalpha.blogspot.com/feeds/posts/default")))
+          "https://blogs.gnome.org/shell-dev/rss")))
 
 ;; --------------------------------------------------------------------------
 ;;
