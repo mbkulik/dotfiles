@@ -11,7 +11,8 @@
 
 ;; install and autoload emacs packages
 (require 'package)
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+(setq package-archives '(("org" . "https://orgmode.org/elpa/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
@@ -39,12 +40,6 @@
 
 ;; better auto indentation
 (electric-indent-mode)
-
-;;ido mode
-(ido-mode 1)
-(setq ido-everywhere t)
-(setq ido-enable-flex-match t)
-(setq ido-create-new-buffer 'always)
 
 ;; set backup and autosave to temp directory
 (setq backup-directory-alist
@@ -85,31 +80,26 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'latex-mode-hook 'whitespace-mode)
 
-;;; --------------------------------------------------------------------------
+;;; ---------------------------------------------------------------------------
 ;;;
-;;; Markdown Mode
+;;; org-mode
 ;;;
 ;;; ---------------------------------------------------------------------------
-(use-package markdown-mode
-  :ensure t
-  :defer t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc"))
+(use-package org
+ :ensure t
+ :config
+ (setq org-html-validation-link nil)
+ (setq org-agenda-files '("~/Documents/org/todo.org")))
 
-
-;;; -------------------------------------------------------------------------
+;;; ---------------------------------------------------------------------------
 ;;;
-;;; Modus-operandi theme
+;;; almost-mono-white color theme
 ;;;
-;;; -------------------------------------------------------------------------
-(use-package modus-operandi-theme
+;;; ---------------------------------------------------------------------------
+(use-package almost-mono-themes
   :ensure t
   :config
-  (load-theme 'modus-operandi t))
-
+  (load-theme 'almost-mono-white t))
 
 ;;; --------------------------------------------------------------------------
 ;;;
@@ -120,6 +110,40 @@
   :ensure t
   :defer t
   :bind ("C-c g" . writegood-mode))
+
+(use-package company
+  :ensure t
+  :hook (prog-mode . company-mode))
+
+(use-package ivy
+  :ensure t
+  :defer 0.1
+  :config (ivy-mode))
+
+(use-package feebleline
+  :ensure t
+  :config (feebleline-mode t))
+
+
+(defconst my-eclipse-jdt-home "/home/mkulik/.emacs.d/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.6.0.v20200915-1508.jar")
+(defun my-eglot-eclipse-jdt-contact (interactive)
+  "Contact with the jdt server input INTERACTIVE."
+  (let ((cp (getenv "CLASSPATH")))
+    (setenv "CLASSPATH" (concat cp ":" my-eclipse-jdt-home))
+    (unwind-protect (eglot--eclipse-jdt-contact nil)
+      (setenv "CLASSPATH" cp))))
+
+(use-package eglot
+  :ensure t
+  :config
+  (setcdr(assq 'java-mode eglot-server-programs) #'my-eglot-eclipse-jdt-contact)
+  :hook
+  (c++-mode . eglot-ensure)
+  (c-mode . eglot-ensure)
+  (java-mode . eglot-ensure))
+
+(setq gc-cons-threshold 100000000
+      read-process-output-max (* 1024 1024))
 
 ;; ---------------------------------------------------------------------------
 ;;
@@ -133,20 +157,11 @@
   :init
   (setq elfeed-feeds
         '("http://planet.emacslife.com/atom.xml"
-          "http://calnewport.com/blog/feed/"
-          "https://xkcd.com/rss.xml"
           "http://fedoraplanet.org/rss20.xml"
           "http://planet.gnome.org/rss20.xml"
           "https://www.phoronix.com/rss.php"
-          "https://gflint.wordpress.com/feed/"
-          "https://cestlaz.github.io/rss.xml"
-          "http://innovativeteacher.org/feed/"
-          "https://codinginmathclass.wordpress.com/feed/"
-          "https://setanothergoal.blogspot.com/feeds/posts/default"
-          "https://medium.com/feed/bits-and-behavior"
-          "http://blog.acthompson.net/feeds/posts/default"
-          "https://computinged.wordpress.com/feed/"
-          "https://blogs.gnome.org/shell-dev/rss")))
+          "https://blogs.gnome.org/shell-dev/rss"
+          "https://lemire.me/blog/feed/")))
 
 ;; --------------------------------------------------------------------------
 ;;
