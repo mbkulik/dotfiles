@@ -3,8 +3,6 @@
 # End:
 
 
-alias rm="rm -I"
 alias e="emacsclient -n"
-alias weather="curl wttr.in/$1?0qn"
-alias open='xdg-open'
-alias todo='e ~/Dropbox/notes/TODO.md'
+alias open='xdg-open 2> /dev/null'
+alias valgrind='valgrind --read-inline-info=no'
