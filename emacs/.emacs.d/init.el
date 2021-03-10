@@ -33,7 +33,8 @@
 (tool-bar-mode -1)
 (setq inhibit-splash-screen t)
 (setq initial-scratch-message nil)
-(set-frame-font "Monospace 12" nil t)
+
+(setq visible-bell t)
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -69,6 +70,9 @@
 ;; make docview fit window size
 (add-hook 'doc-view-mode-hook 'doc-view-fit-height-to-window)
 
+;;enable gc on loss of focus
+(add-hook 'focus-out-hook 'garbage-collect)
+
 ;;; ---------------------------------------------------------------------------
 ;;;
 ;;; whitespace highlighting
@@ -84,12 +88,15 @@
 ;;;
 ;;; org-mode
 ;;;
+;;; multline-emphasis: https://ox-hugo.scripter.co/test/posts/multi-line-bold/
 ;;; ---------------------------------------------------------------------------
 (use-package org
  :ensure t
  :config
  (setq org-html-validation-link nil)
- (setq org-agenda-files '("~/Documents/org/todo.org")))
+ (setq org-agenda-files '("~/Documents/org/todo.org"))
+ (setcar (nthcdr 4 org-emphasis-regexp-components) 20)
+ (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
 
 ;;; ---------------------------------------------------------------------------
 ;;;
@@ -99,7 +106,10 @@
 (use-package almost-mono-themes
   :ensure t
   :config
-  (load-theme 'almost-mono-white t))
+  (load-theme 'almost-mono-white t)
+  (set-frame-font "Monospace 12" nil t)
+  (set-background-color "#FFFEEE")
+  (set-foreground-color "#111111"))
 
 ;;; --------------------------------------------------------------------------
 ;;;
@@ -141,9 +151,6 @@
   (c++-mode . eglot-ensure)
   (c-mode . eglot-ensure)
   (java-mode . eglot-ensure))
-
-(setq gc-cons-threshold 100000000
-      read-process-output-max (* 1024 1024))
 
 ;; ---------------------------------------------------------------------------
 ;;
