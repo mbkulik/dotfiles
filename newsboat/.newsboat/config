@@ -1,4 +1,4 @@
-browser "2>/dev/null 1>&2 firefox --new-tab %u"
+browser "2>/dev/null 1>&2 google-chrome %u"
 
 
 color listfocus           black  color214  bold
