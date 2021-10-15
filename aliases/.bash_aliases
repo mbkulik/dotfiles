@@ -10,7 +10,7 @@ export CS620=$HOME/School/cs620/
 
 alias open='xdg-open 2> /dev/null'
 alias valgrind='valgrind --read-inline-info=no'
-alias news='newsboat -r -q'
+alias e='emacsclient -n'
 
 alias cs410c='cd $CS410c'
 alias cs415='cd $CS415'
