@@ -5,3 +5,6 @@ session*
 eshell/
 url/
 *.db
+emacs/.emacs.d/tramp
+emacs/.emacs.d/custom.el
+emacs/.emacs.d/.lsp-session*

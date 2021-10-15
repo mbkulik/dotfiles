@@ -11,8 +11,7 @@
 
 ;; install and autoload emacs packages
 (require 'package)
-(setq package-archives '(("org" . "https://orgmode.org/elpa/")
-                         ("gnu" . "https://elpa.gnu.org/packages/")
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
@@ -55,6 +54,7 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq tab-width 4)
+(setq-default frame-title-format '("%b"))
 
 (setq ispell-program-name "hunspell")
 (setq ispell-dictionary "en_US")
@@ -84,21 +84,23 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'latex-mode-hook 'whitespace-mode)
 
-;;; ---------------------------------------------------------------------------
-;;;
-;;; org-mode
-;;;
-;;; multline-emphasis: https://ox-hugo.scripter.co/test/posts/multi-line-bold/
-;;; ---------------------------------------------------------------------------
-(use-package org
- :ensure t
- :config
- (setq org-html-validation-link nil)
- (setq org-agenda-files '("~/Documents/org/todo.org"))
- (setcar (nthcdr 4 org-emphasis-regexp-components) 20)
- (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
 
-;;; ---------------------------------------------------------------------------
+;;; --------------------------------------------------------------------------
+;;;
+;;; markdown mode
+;;;
+;;;---------------------------------------------------------------------------
+(use-package markdown-mode
+  :ensure t
+  :defer t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "pandoc"))
+
+
+:;; ---------------------------------------------------------------------------
 ;;;
 ;;; almost-mono-white color theme
 ;;;
@@ -107,9 +109,8 @@
   :ensure t
   :config
   (load-theme 'almost-mono-white t)
-  (set-frame-font "Monospace 12" nil t)
-  (set-background-color "#FFFEEE")
-  (set-foreground-color "#111111"))
+  (set-frame-font "Monospace 12" nil t))
+
 
 ;;; --------------------------------------------------------------------------
 ;;;
@@ -121,36 +122,39 @@
   :defer t
   :bind ("C-c g" . writegood-mode))
 
+
+;;; --------------------------------------------------------------------------
+;;;
+;;; lsp mode packages
+;;;
+;;; --------------------------------------------------------------------------
 (use-package company
   :ensure t
   :hook (prog-mode . company-mode))
 
 (use-package ivy
   :ensure t
-  :defer 0.1
   :config (ivy-mode))
 
+(use-package lsp-mode
+  :ensure t
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  (setq c-c++-backend 'lsp-ccls)
+  :hook ((c-mode . lsp-deferred))
+  :commands lsp lsp-deferred)
+
+
+;;; ---------------------------------------------------------------------------
+;;;
+;;; simplified emacs modeline
+;;;
+;;; ---------------------------------------------------------------------------
 (use-package feebleline
   :ensure t
   :config (feebleline-mode t))
 
-
-(defconst my-eclipse-jdt-home "/home/mkulik/.emacs.d/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.6.0.v20200915-1508.jar")
-(defun my-eglot-eclipse-jdt-contact (interactive)
-  "Contact with the jdt server input INTERACTIVE."
-  (let ((cp (getenv "CLASSPATH")))
-    (setenv "CLASSPATH" (concat cp ":" my-eclipse-jdt-home))
-    (unwind-protect (eglot--eclipse-jdt-contact nil)
-      (setenv "CLASSPATH" cp))))
-
-(use-package eglot
-  :ensure t
-  :config
-  (setcdr(assq 'java-mode eglot-server-programs) #'my-eglot-eclipse-jdt-contact)
-  :hook
-  (c++-mode . eglot-ensure)
-  (c-mode . eglot-ensure)
-  (java-mode . eglot-ensure))
 
 ;; ---------------------------------------------------------------------------
 ;;
@@ -168,7 +172,14 @@
           "http://planet.gnome.org/rss20.xml"
           "https://www.phoronix.com/rss.php"
           "https://blogs.gnome.org/shell-dev/rss"
-          "https://lemire.me/blog/feed/")))
+          "https://lemire.me/blog/feed/"
+          "https://www.youtube.com/feeds/videos.xml?channel_id=UCXuqSBlHAE6Xw-yeJA0Tunw"
+          "https://www.youtube.com/feeds/videos.xml?channel_id=UCeeFfhMcJa1kjtfZAGskOCA"
+          "https://www.youtube.com/feeds/videos.xml?channel_id=UC4w1YQAJMWOz4qtxinq55LQ"
+          "https://kbd.news/rss.php"
+          "https://www.youtube.com/feeds/videos.xml?channel_id=UCT6AJiTYspOILBK3hMWEq2g"
+          "https://www.youtube.com/feeds/videos.xml?channel_id=UCOFH59uoSs8SUF0L_p3W0sg"
+          "https://www.youtube.com/feeds/videos.xml?channel_id=UCXlDgfWY2JbsYEam2m68Hyw")))
 
 ;; --------------------------------------------------------------------------
 ;;
