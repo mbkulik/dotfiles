@@ -72,6 +72,8 @@
 
 ;;enable gc on loss of focus
 (add-hook 'focus-out-hook 'garbage-collect)
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 ;;; ---------------------------------------------------------------------------
 ;;;
@@ -130,31 +132,32 @@
 ;;; --------------------------------------------------------------------------
 (use-package company
   :ensure t
-  :hook (prog-mode . company-mode))
+  :init
+  (setq company-minimum-prefix-length 1)
+  (global-company-mode))
 
 (use-package ivy
   :ensure t
   :config (ivy-mode))
 
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+
+
 (use-package lsp-mode
   :ensure t
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
+  ;;  (setq lsp-keymap-prefix "C-c l")
   (setq c-c++-backend 'lsp-ccls)
+  (setq lsp-restart 'auto-restart)
   :hook ((c-mode . lsp-deferred))
   :commands lsp lsp-deferred)
 
-
-;;; ---------------------------------------------------------------------------
-;;;
-;;; simplified emacs modeline
-;;;
-;;; ---------------------------------------------------------------------------
-(use-package feebleline
+(use-package lsp-java
   :ensure t
-  :config (feebleline-mode t))
-
+  :hook (java-mode . lsp-deferred))
 
 ;; ---------------------------------------------------------------------------
 ;;
