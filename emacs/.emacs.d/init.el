@@ -71,7 +71,7 @@
 (add-hook 'doc-view-mode-hook 'doc-view-fit-height-to-window)
 
 ;;enable gc on loss of focus
-(add-hook 'focus-out-hook 'garbage-collect)
+(add-function :after after-focus-change-function 'garbage-collect)
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
@@ -134,7 +134,7 @@
   :ensure t
   :init
   (setq company-minimum-prefix-length 1)
-  (global-company-mode))
+  :hook (prog-mode . company-mode))
 
 (use-package ivy
   :ensure t
@@ -152,7 +152,8 @@
   ;;  (setq lsp-keymap-prefix "C-c l")
   (setq c-c++-backend 'lsp-ccls)
   (setq lsp-restart 'auto-restart)
-  :hook ((c-mode . lsp-deferred))
+  :hook
+  (c-mode . lsp-deferred)
   :commands lsp lsp-deferred)
 
 (use-package lsp-java
