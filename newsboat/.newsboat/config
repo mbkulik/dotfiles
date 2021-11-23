@@ -1,4 +1,4 @@
-browser "2>/dev/null 1>&2 google-chrome %u"
+browser "2>/dev/null 1>&2 flatpak run com.github.Eloston.UngoogledChromium %u"
 
 
 color listfocus           black  color214  bold
