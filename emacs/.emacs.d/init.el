@@ -111,6 +111,8 @@
   :ensure t
   :config
   (load-theme 'almost-mono-white t)
+  (set-background-color "#FFFFF8")
+  (set-foreground-color "#111111")
   (set-frame-font "Monospace 12" nil t))
 
 
