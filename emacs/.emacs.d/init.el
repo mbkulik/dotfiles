@@ -32,6 +32,7 @@
 (tool-bar-mode -1)
 (setq inhibit-splash-screen t)
 (setq initial-scratch-message nil)
+(setq font-use-system-font t)
 
 (setq visible-bell t)
 
@@ -110,10 +111,7 @@
 (use-package almost-mono-themes
   :ensure t
   :config
-  (load-theme 'almost-mono-white t)
-  (set-background-color "#FFFFF8")
-  (set-foreground-color "#111111")
-  (set-frame-font "Monospace 12" nil t))
+  (load-theme 'almost-mono-white t))
 
 
 ;;; --------------------------------------------------------------------------
@@ -162,6 +160,12 @@
   :ensure t
   :hook (java-mode . lsp-deferred))
 
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp-deferred))))
+
 ;; ---------------------------------------------------------------------------
 ;;
 ;; elfeed (rss reader)
@@ -197,3 +201,6 @@
   (kill-buffer (current-buffer)))
 
 (global-set-key (kbd "C-x k") 'mbk/kill-this-buffer)
+
+(when (fboundp 'native-compile-async)
+  (setq comp-deferred-compilation t))
