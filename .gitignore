@@ -8,3 +8,4 @@ url/
 emacs/.emacs.d/tramp
 emacs/.emacs.d/custom.el
 emacs/.emacs.d/.lsp-session*
+emacs/.emacs.d/eln-cache/

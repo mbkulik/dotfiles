@@ -33,6 +33,7 @@
 (setq inhibit-splash-screen t)
 (setq initial-scratch-message nil)
 (setq font-use-system-font t)
+(set-face-attribute 'default nil :height 120)
 
 (setq visible-bell t)
 
