@@ -33,7 +33,7 @@
 (setq inhibit-splash-screen t)
 (setq initial-scratch-message nil)
 (setq font-use-system-font t)
-(set-face-attribute 'default nil :height 120)
+;;(set-face-attribute 'default nil :height 120)
 
 (setq visible-bell t)
 
@@ -88,6 +88,11 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'latex-mode-hook 'whitespace-mode)
 
+(use-package mood-line
+  :ensure t
+  :init
+  (mood-line-mode))
+
 
 ;;; --------------------------------------------------------------------------
 ;;;
@@ -124,6 +129,9 @@
   :ensure t
   :defer t
   :bind ("C-c g" . writegood-mode))
+
+
+
 
 
 ;;; --------------------------------------------------------------------------
