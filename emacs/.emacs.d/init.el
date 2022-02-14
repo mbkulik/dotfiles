@@ -33,7 +33,6 @@
 (setq inhibit-splash-screen t)
 (setq initial-scratch-message nil)
 (setq font-use-system-font t)
-;;(set-face-attribute 'default nil :height 120)
 
 (setq visible-bell t)
 
@@ -130,13 +129,9 @@
   :defer t
   :bind ("C-c g" . writegood-mode))
 
-
-
-
-
 ;;; --------------------------------------------------------------------------
 ;;;
-;;; lsp mode packages
+;;; lsp-mode packages
 ;;;
 ;;; --------------------------------------------------------------------------
 (use-package company
@@ -145,35 +140,38 @@
   (setq company-minimum-prefix-length 1)
   :hook (prog-mode . company-mode))
 
-(use-package ivy
-  :ensure t
-  :config (ivy-mode))
-
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
 
+(use-package ivy
+  :ensure t
+  :config (ivy-mode))
 
 (use-package lsp-mode
   :ensure t
   :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  ;;  (setq lsp-keymap-prefix "C-c l")
-  (setq c-c++-backend 'lsp-ccls)
   (setq lsp-restart 'auto-restart)
   :hook
+  (c++-mode . lsp-deferred)
   (c-mode . lsp-deferred)
-  :commands lsp lsp-deferred)
+  :commands lsp lsp-deferred
+  :config
+  (setq lsp-auto-guess-root t)
+  (setq lsp-log-io nil)
+  (setq lsp-restart 'auto-restart)
+  (setq lsp-eldoc-hook nil)
+  (setq lsp-idle-delay 0.5))
 
-(use-package lsp-java
+(use-package lsp-ui
   :ensure t
-  :hook (java-mode . lsp-deferred))
+  :commands lsp-ui-mode)
 
 (use-package lsp-pyright
   :ensure t
   :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp-deferred))))
+                          (require 'lsp-pyright)
+                          (lsp-deferred))))
 
 ;; ---------------------------------------------------------------------------
 ;;
@@ -192,24 +190,19 @@
           "https://www.phoronix.com/rss.php"
           "https://blogs.gnome.org/shell-dev/rss"
           "https://lemire.me/blog/feed/"
-          "https://www.youtube.com/feeds/videos.xml?channel_id=UCXuqSBlHAE6Xw-yeJA0Tunw"
-          "https://www.youtube.com/feeds/videos.xml?channel_id=UCeeFfhMcJa1kjtfZAGskOCA"
-          "https://www.youtube.com/feeds/videos.xml?channel_id=UC4w1YQAJMWOz4qtxinq55LQ"
           "https://kbd.news/rss.php"
           "https://www.youtube.com/feeds/videos.xml?channel_id=UCT6AJiTYspOILBK3hMWEq2g"
           "https://www.youtube.com/feeds/videos.xml?channel_id=UCOFH59uoSs8SUF0L_p3W0sg"
           "https://www.youtube.com/feeds/videos.xml?channel_id=UCXlDgfWY2JbsYEam2m68Hyw")))
 
 ;; --------------------------------------------------------------------------
-;;
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
 ;; --------------------------------------------------------------------------
-(defun mbk/kill-this-buffer ()
-  "Kill the current buffer."
-  (interactive)
-  (kill-buffer (current-buffer)))
+(global-set-key (kbd "C-x k") #'(lambda() (interactive)
+                                  (kill-buffer (current-buffer))))
 
-(global-set-key (kbd "C-x k") 'mbk/kill-this-buffer)
+(global-set-key (kbd "C-c t") #'(lambda() (interactive)
+                                  (ansi-term "/bin/bash")))
 
 (when (fboundp 'native-compile-async)
   (setq comp-deferred-compilation t))
