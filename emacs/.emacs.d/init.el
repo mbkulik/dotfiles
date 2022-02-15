@@ -116,8 +116,8 @@
 (use-package almost-mono-themes
   :ensure t
   :config
-  (load-theme 'almost-mono-white t))
-
+  (load-theme 'almost-mono-white t)
+  (set-face-foreground 'scroll-bar "gray"))
 
 ;;; --------------------------------------------------------------------------
 ;;;
