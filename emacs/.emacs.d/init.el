@@ -33,8 +33,12 @@
 (setq inhibit-splash-screen t)
 (setq initial-scratch-message nil)
 (setq font-use-system-font t)
-
+(setq pixel-scroll-precision-mode t)
 (setq visible-bell t)
+
+;;org mode
+(setq org-indent-mode-turns-on-hiding-stars nil)
+
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -87,6 +91,9 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'latex-mode-hook 'whitespace-mode)
 
+(setq use-package-compute-statistics t)
+
+
 (use-package mood-line
   :ensure t
   :init
@@ -108,7 +115,7 @@
   :init (setq markdown-command "pandoc"))
 
 
-:;; ---------------------------------------------------------------------------
+;;; ---------------------------------------------------------------------------
 ;;;
 ;;; almost-mono-white color theme
 ;;;
@@ -116,8 +123,7 @@
 (use-package almost-mono-themes
   :ensure t
   :config
-  (load-theme 'almost-mono-white t)
-  (set-face-foreground 'scroll-bar "gray"))
+  (load-theme 'almost-mono-white t))
 
 ;;; --------------------------------------------------------------------------
 ;;;
@@ -161,7 +167,8 @@
   (setq lsp-log-io nil)
   (setq lsp-restart 'auto-restart)
   (setq lsp-eldoc-hook nil)
-  (setq lsp-idle-delay 0.5))
+  (setq lsp-idle-delay 0.5)
+  (setq lsp-enable-snippet nil))
 
 (use-package lsp-ui
   :ensure t
@@ -201,7 +208,7 @@
 (global-set-key (kbd "C-x k") #'(lambda() (interactive)
                                   (kill-buffer (current-buffer))))
 
-(global-set-key (kbd "C-c t") #'(lambda() (interactive)
+(global-set-key (kbd "C-x t") #'(lambda() (interactive)
                                   (ansi-term "/bin/bash")))
 
 (when (fboundp 'native-compile-async)
