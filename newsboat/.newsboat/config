@@ -1,6 +1,0 @@
-browser "2>/dev/null 1>&2 flatpak run com.github.Eloston.UngoogledChromium %u"
-
-
-color listfocus           black  color214  bold
-color listfocus_unread    black  color214  bold
-color info                black  color7    bold
