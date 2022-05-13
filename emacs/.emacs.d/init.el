@@ -39,7 +39,6 @@
 ;;org mode
 (setq org-indent-mode-turns-on-hiding-stars nil)
 
-
 ;; disable version control
 (setq vc-handled-backends ())
 
@@ -146,39 +145,18 @@
   (setq company-minimum-prefix-length 1)
   :hook (prog-mode . company-mode))
 
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
-
 (use-package ivy
   :ensure t
   :config (ivy-mode))
 
-(use-package lsp-mode
+(use-package eglot
   :ensure t
-  :init
-  (setq lsp-restart 'auto-restart)
-  :hook
-  (c++-mode . lsp-deferred)
-  (c-mode . lsp-deferred)
-  :commands lsp lsp-deferred
   :config
-  (setq lsp-auto-guess-root t)
-  (setq lsp-log-io nil)
-  (setq lsp-restart 'auto-restart)
-  (setq lsp-eldoc-hook nil)
-  (setq lsp-idle-delay 0.5)
-  (setq lsp-enable-snippet nil))
-
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
-
-(use-package lsp-pyright
-  :ensure t
-  :hook (python-mode . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp-deferred))))
+  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
+  (add-to-list 'eglot-server-programs '(python-mode) "pyright-langserver --stdio")
+  (add-hook 'c-mode-hook 'eglot-ensure)
+  (add-hook 'c++-mode-hook 'eglot-ensure)
+  (add-hook 'python-mode-hook 'eglot-ensure))
 
 ;; ---------------------------------------------------------------------------
 ;;
