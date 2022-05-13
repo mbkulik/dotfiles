@@ -14,6 +14,11 @@ alias e='emacsclient -n'
 alias eterm='emacsclient -t'
 alias which='command -v'
 alias nightly='/opt/nightly/firefox &>/dev/null & disown'
+alias ipinfo='curl ipinfo.io'
+
+alias ll='ls -l1p --color=auto'
+alias ls='ls -1p --color=auto'
+
 
 alias cs410c='cd $CS410c'
 alias cs415='cd $CS415'
