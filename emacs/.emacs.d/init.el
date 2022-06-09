@@ -36,6 +36,11 @@
 (setq pixel-scroll-precision-mode t)
 (setq visible-bell t)
 
+;; color theme
+;;(setq modus-themes-mode-line '(borderless))
+;;(load-theme 'modus-operandi t)
+
+
 ;;org mode
 (setq org-indent-mode-turns-on-hiding-stars nil)
 
@@ -75,9 +80,9 @@
 (add-hook 'doc-view-mode-hook 'doc-view-fit-height-to-window)
 
 ;;enable gc on loss of focus
-(add-function :after after-focus-change-function 'garbage-collect)
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+;;(add-function :after after-focus-change-function 'garbage-collect)
+;;(setq gc-cons-threshold 100000000)
+;;(setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 ;;; ---------------------------------------------------------------------------
 ;;;
@@ -112,7 +117,6 @@
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc"))
-
 
 ;;; ---------------------------------------------------------------------------
 ;;;
@@ -152,11 +156,9 @@
 (use-package eglot
   :ensure t
   :config
-  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
-  (add-to-list 'eglot-server-programs '(python-mode) "pyright-langserver --stdio")
+  (setq eglot-autoshutdown t)
   (add-hook 'c-mode-hook 'eglot-ensure)
-  (add-hook 'c++-mode-hook 'eglot-ensure)
-  (add-hook 'python-mode-hook 'eglot-ensure))
+  (add-hook 'c++-mode-hook 'eglot-ensure))
 
 ;; ---------------------------------------------------------------------------
 ;;
@@ -188,6 +190,8 @@
 
 (global-set-key (kbd "C-x t") #'(lambda() (interactive)
                                   (ansi-term "/bin/bash")))
+
+(load "~/.emacs.d/private.el")
 
 (when (fboundp 'native-compile-async)
   (setq comp-deferred-compilation t))
