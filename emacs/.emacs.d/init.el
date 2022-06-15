@@ -36,13 +36,10 @@
 (setq pixel-scroll-precision-mode t)
 (setq visible-bell t)
 
-;; color theme
-;;(setq modus-themes-mode-line '(borderless))
-;;(load-theme 'modus-operandi t)
-
 
 ;;org mode
 (setq org-indent-mode-turns-on-hiding-stars nil)
+(setq org-default-notes-file "~/Documents/org/inbox.org")
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -156,9 +153,12 @@
 (use-package eglot
   :ensure t
   :config
+  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
+  (add-to-list 'eglot-server-programs '(python-mode) "pyright-langserver --stdio")
   (setq eglot-autoshutdown t)
   (add-hook 'c-mode-hook 'eglot-ensure)
-  (add-hook 'c++-mode-hook 'eglot-ensure))
+  (add-hook 'c++-mode-hook 'eglot-ensure)
+  (add-hook 'python-mode-hook 'eglot-ensure))
 
 ;; ---------------------------------------------------------------------------
 ;;
