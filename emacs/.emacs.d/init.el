@@ -191,7 +191,8 @@
 (global-set-key (kbd "C-x t") #'(lambda() (interactive)
                                   (ansi-term "/bin/bash")))
 
-(load "~/.emacs.d/private.el")
+(if (file-exists-p "~/.emacs.d/private.el")
+    (load "~/.emacs.d/private.el"))
 
 (when (fboundp 'native-compile-async)
   (setq comp-deferred-compilation t))
