@@ -38,8 +38,11 @@
 
 
 ;;org mode
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
 (setq org-indent-mode-turns-on-hiding-stars nil)
-(setq org-default-notes-file "~/Documents/org/inbox.org")
+(setq org-default-notes-file "~/Dropbox/org/inbox.org")
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -77,9 +80,9 @@
 (add-hook 'doc-view-mode-hook 'doc-view-fit-height-to-window)
 
 ;;enable gc on loss of focus
-;;(add-function :after after-focus-change-function 'garbage-collect)
-;;(setq gc-cons-threshold 100000000)
-;;(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(add-function :after after-focus-change-function 'garbage-collect)
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 ;;; ---------------------------------------------------------------------------
 ;;;
@@ -146,19 +149,46 @@
   (setq company-minimum-prefix-length 1)
   :hook (prog-mode . company-mode))
 
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+
 (use-package ivy
   :ensure t
   :config (ivy-mode))
 
-(use-package eglot
+(use-package lsp-mode
   :ensure t
+  :init
+  (setq lsp-restart 'auto-restart)
+  :hook
+  (c++-mode . lsp-deferred)
+  (c-mode . lsp-deferred)
+  (python-mode . lsp-deferred)
+  :commands lsp lsp-deferred
   :config
-  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
-  (add-to-list 'eglot-server-programs '(python-mode) "pyright-langserver --stdio")
-  (setq eglot-autoshutdown t)
-  (add-hook 'c-mode-hook 'eglot-ensure)
-  (add-hook 'c++-mode-hook 'eglot-ensure)
-  (add-hook 'python-mode-hook 'eglot-ensure))
+  (setq lsp-auto-guess-root t)
+  (setq lsp-log-io nil)
+  (setq lsp-restart 'auto-restart)
+  (setq lsp-eldoc-hook nil)
+  (setq lsp-idle-delay 0.5)
+  (setq lsp-enable-snippet nil))
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp-deferred))))
+
+(use-package lsp-java
+  :ensure t
+  :hook (java-mode . (lambda ()
+                       (require 'lsp-java)
+                       (lsp-deferred))))
 
 ;; ---------------------------------------------------------------------------
 ;;
@@ -190,6 +220,7 @@
 
 (global-set-key (kbd "C-x t") #'(lambda() (interactive)
                                   (ansi-term "/bin/bash")))
+
 
 (if (file-exists-p "~/.emacs.d/private.el")
     (load "~/.emacs.d/private.el"))
