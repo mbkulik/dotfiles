@@ -103,7 +103,6 @@
   :init
   (mood-line-mode))
 
-
 ;;; --------------------------------------------------------------------------
 ;;;
 ;;; markdown mode
@@ -220,10 +219,6 @@
 
 (global-set-key (kbd "C-x t") #'(lambda() (interactive)
                                   (ansi-term "/bin/bash")))
-
-
-(if (file-exists-p "~/.emacs.d/private.el")
-    (load "~/.emacs.d/private.el"))
 
 (when (fboundp 'native-compile-async)
   (setq comp-deferred-compilation t))
