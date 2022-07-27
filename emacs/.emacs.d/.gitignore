@@ -2,3 +2,6 @@
 .dap-breakpoints
 eclipse.jdt.ls/
 workspace/
+custom.el
+eln-cache/
+elpa/
