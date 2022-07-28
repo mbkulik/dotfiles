@@ -166,7 +166,6 @@
   (python-mode . lsp-deferred)
   :commands lsp lsp-deferred
   :config
-  (setq lsp-auto-guess-root t)
   (setq lsp-log-io nil)
   (setq lsp-restart 'auto-restart)
   (setq lsp-eldoc-hook nil)
