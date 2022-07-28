@@ -5,3 +5,5 @@ workspace/
 custom.el
 eln-cache/
 elpa/
+.lsp-session-v1
+auto-save-list/
