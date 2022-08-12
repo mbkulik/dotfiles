@@ -36,6 +36,8 @@
 (setq pixel-scroll-precision-mode t)
 (setq visible-bell t)
 
+;; ignore SIGSTOP
+(global-unset-key (kbd "C-z"))
 
 ;;org mode
 (global-set-key (kbd "C-c l") #'org-store-link)
