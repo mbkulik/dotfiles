@@ -36,6 +36,10 @@
 (setq pixel-scroll-precision-mode t)
 (setq visible-bell t)
 
+;;; theme
+(setq modus-themes-mode-line '(borderless))
+(load-theme 'modus-operandi t)
+
 ;; ignore SIGSTOP
 (global-unset-key (kbd "C-z"))
 
@@ -44,7 +48,7 @@
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
 (setq org-indent-mode-turns-on-hiding-stars nil)
-(setq org-default-notes-file "~/Dropbox/org/inbox.org")
+(setq org-default-notes-file "~/Documents/org/inbox.org")
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -118,16 +122,6 @@
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc"))
-
-;;; ---------------------------------------------------------------------------
-;;;
-;;; almost-mono-white color theme
-;;;
-;;; ---------------------------------------------------------------------------
-(use-package almost-mono-themes
-  :ensure t
-  :config
-  (load-theme 'almost-mono-white t))
 
 ;;; --------------------------------------------------------------------------
 ;;;
