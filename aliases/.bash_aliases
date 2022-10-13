@@ -5,7 +5,7 @@
 export CS410c=$HOME/School/cs410c/
 export CS415=$HOME/School/cs415/
 export CS416=$HOME/School/cs416/
-export CS515=$HOME/School/cs515/
+export CS515=$HOME/School/cs515/cs515-java/
 export CS620=$HOME/School/cs620/
 
 alias open='xdg-open 2> /dev/null'
