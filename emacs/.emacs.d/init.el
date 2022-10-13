@@ -36,10 +36,6 @@
 (setq pixel-scroll-precision-mode t)
 (setq visible-bell t)
 
-;;; theme
-(setq modus-themes-mode-line '(borderless))
-(load-theme 'modus-operandi t)
-
 ;; ignore SIGSTOP
 (global-unset-key (kbd "C-z"))
 
@@ -54,7 +50,7 @@
 (setq vc-handled-backends ())
 
 ;; better auto indentation
-(electric-indent-mode)
+;;(electric-indent-mode)
 
 ;; set backup and autosave to temp directory
 (setq backup-directory-alist
@@ -85,11 +81,6 @@
 ;; make docview fit window size
 (add-hook 'doc-view-mode-hook 'doc-view-fit-height-to-window)
 
-;;enable gc on loss of focus
-(add-function :after after-focus-change-function 'garbage-collect)
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
-
 ;;; ---------------------------------------------------------------------------
 ;;;
 ;;; whitespace highlighting
@@ -103,6 +94,11 @@
 
 (setq use-package-compute-statistics t)
 
+(use-package gcmh
+  :ensure t
+  :init
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  (gcmh-mode 1))
 
 (use-package mood-line
   :ensure t
@@ -123,6 +119,17 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc"))
 
+;;; ---------------------------------------------------------------------------
+;;;
+;;; almost-mono-white color theme
+;;;
+;;; ---------------------------------------------------------------------------
+(use-package almost-mono-themes
+  :ensure t
+  :config
+  (load-theme 'almost-mono-white t))
+
+
 ;;; --------------------------------------------------------------------------
 ;;;
 ;;; writegood-mode
@@ -135,7 +142,7 @@
 
 ;;; --------------------------------------------------------------------------
 ;;;
-;;; lsp-mode packages
+;;; lsp  packages
 ;;;
 ;;; --------------------------------------------------------------------------
 (use-package company
@@ -144,45 +151,32 @@
   (setq company-minimum-prefix-length 1)
   :hook (prog-mode . company-mode))
 
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
-
-(use-package ivy
-  :ensure t
-  :config (ivy-mode))
-
-(use-package lsp-mode
+(use-package vertico
   :ensure t
   :init
-  (setq lsp-restart 'auto-restart)
-  :hook
-  (c++-mode . lsp-deferred)
-  (c-mode . lsp-deferred)
-  (python-mode . lsp-deferred)
-  :commands lsp lsp-deferred
+  (vertico-mode))
+
+(use-package eglot
+  :ensure t
   :config
-  (setq lsp-log-io nil)
-  (setq lsp-restart 'auto-restart)
-  (setq lsp-eldoc-hook nil)
-  (setq lsp-idle-delay 0.5)
-  (setq lsp-enable-snippet nil))
+  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
+  (add-to-list 'eglot-server-programs '(python-mode) "pyright-langserver --stdio")
+  (setq eglot-autoshutdown t)
+  (add-hook 'c-mode-hook 'eglot-ensure)
+  (add-hook 'c++-mode-hook 'eglot-ensure)
+  (add-hook 'python-mode-hook 'eglot-ensure)
+  (add-hook 'java-mode-hook 'eglot-ensure))
 
-(use-package lsp-ui
+(use-package projectile
   :ensure t
-  :commands lsp-ui-mode)
+  :init
+  (projectile-mode +1))
 
-(use-package lsp-pyright
+(use-package vterm
   :ensure t
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp-deferred))))
-
-(use-package lsp-java
-  :ensure t
-  :hook (java-mode . (lambda ()
-                       (require 'lsp-java)
-                       (lsp-deferred))))
+  :config
+  (setq vterm-always-compile-module t)
+  (setq vterm-kill-buffer-on-exit t))
 
 ;; ---------------------------------------------------------------------------
 ;;
@@ -213,7 +207,7 @@
                                   (kill-buffer (current-buffer))))
 
 (global-set-key (kbd "C-x t") #'(lambda() (interactive)
-                                  (ansi-term "/bin/bash")))
+                                  (vterm t)))
 
 (when (fboundp 'native-compile-async)
   (setq comp-deferred-compilation t))
