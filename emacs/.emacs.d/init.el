@@ -28,6 +28,9 @@
 ;;
 ;;------------------------------------------------------------------------------
 
+;; https://tony-zorman.com/posts/2022-10-22-emacs-potpourri.html
+(setq frame-inhibit-implied-resize t)
+
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (setq inhibit-splash-screen t)
@@ -36,8 +39,9 @@
 (setq pixel-scroll-precision-mode t)
 (setq visible-bell t)
 
-;; ignore SIGSTOP
+;; ignore suspend-frame
 (global-unset-key (kbd "C-z"))
+(global-unset-key (kbd "C-x C-z"))
 
 ;;org mode
 (global-set-key (kbd "C-c l") #'org-store-link)
@@ -50,7 +54,7 @@
 (setq vc-handled-backends ())
 
 ;; better auto indentation
-;;(electric-indent-mode)
+(electric-indent-mode)
 
 ;; set backup and autosave to temp directory
 (setq backup-directory-alist
@@ -80,6 +84,10 @@
 
 ;; make docview fit window size
 (add-hook 'doc-view-mode-hook 'doc-view-fit-height-to-window)
+
+(setq minibuffer-prompt-properties
+      '(read-only t cursor-intangible t face minibuffer-prompt))
+(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
 ;;; ---------------------------------------------------------------------------
 ;;;
@@ -161,7 +169,7 @@
   :config
   (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
   (add-to-list 'eglot-server-programs '(python-mode) "pyright-langserver --stdio")
-  (setq eglot-autoshutdown t)
+  ;;(setq eglot-autoshutdown t)
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'c++-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
@@ -209,5 +217,6 @@
 (global-set-key (kbd "C-x t") #'(lambda() (interactive)
                                   (vterm t)))
 
+(setq native-comp-async-report-warnings-errors nil)
 (when (fboundp 'native-compile-async)
   (setq comp-deferred-compilation t))
