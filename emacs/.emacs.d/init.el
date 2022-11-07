@@ -159,26 +159,28 @@
   (setq company-minimum-prefix-length 1)
   :hook (prog-mode . company-mode))
 
-(use-package vertico
+(use-package ivy
   :ensure t
-  :init
-  (vertico-mode))
+  :config
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) ")
+  (ivy-mode))
+
+(use-package project-x
+  :load-path "~/.emacs.d/lisp/"
+  :after project
+  :config
+  (project-x-mode 1))
 
 (use-package eglot
   :ensure t
   :config
   (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
   (add-to-list 'eglot-server-programs '(python-mode) "pyright-langserver --stdio")
-  ;;(setq eglot-autoshutdown t)
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'c++-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'java-mode-hook 'eglot-ensure))
-
-(use-package projectile
-  :ensure t
-  :init
-  (projectile-mode +1))
 
 (use-package vterm
   :ensure t
