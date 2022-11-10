@@ -137,7 +137,6 @@
   :config
   (load-theme 'almost-mono-white t))
 
-
 ;;; --------------------------------------------------------------------------
 ;;;
 ;;; writegood-mode
@@ -159,12 +158,10 @@
   (setq company-minimum-prefix-length 1)
   :hook (prog-mode . company-mode))
 
-(use-package ivy
+(use-package vertico
   :ensure t
-  :config
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) ")
-  (ivy-mode))
+  :init
+  (vertico-mode))
 
 (use-package project-x
   :load-path "~/.emacs.d/lisp/"
@@ -175,6 +172,7 @@
 (use-package eglot
   :ensure t
   :config
+  (setq eglot-autoshutdown t)
   (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
   (add-to-list 'eglot-server-programs '(python-mode) "pyright-langserver --stdio")
   (add-hook 'c-mode-hook 'eglot-ensure)
