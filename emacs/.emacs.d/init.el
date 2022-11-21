@@ -102,11 +102,8 @@
 
 (setq use-package-compute-statistics t)
 
-(use-package gcmh
-  :ensure t
-  :init
-  (setq read-process-output-max (* 1024 1024)) ;; 1mb
-  (gcmh-mode 1))
+(add-function :after after-focus-change-function 'garbage-collect)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 (use-package mood-line
   :ensure t
@@ -156,10 +153,15 @@
   :ensure t
   :init
   (setq company-minimum-prefix-length 1)
+  (global-set-key (kbd "TAB") #'company-indent-or-complete-common)
   :hook (prog-mode . company-mode))
 
 (use-package vertico
   :ensure t
+  :config
+  (setq read-file-name-completion-ignore-case t
+        read-buffer-completion-ignore-case t
+        completion-ignore-case t)
   :init
   (vertico-mode))
 
@@ -206,7 +208,17 @@
           "https://kbd.news/rss.php"
           "https://www.youtube.com/feeds/videos.xml?channel_id=UCT6AJiTYspOILBK3hMWEq2g"
           "https://www.youtube.com/feeds/videos.xml?channel_id=UCOFH59uoSs8SUF0L_p3W0sg"
-          "https://www.youtube.com/feeds/videos.xml?channel_id=UCXlDgfWY2JbsYEam2m68Hyw")))
+          "https://www.youtube.com/feeds/videos.xml?channel_id=UCXlDgfWY2JbsYEam2m68Hyw"
+          "https://grapheneos.org/releases.atom")))
+
+
+
+(use-package mastodon
+  :ensure t
+  :config
+  (setq mastodon-instance-url "https://mastodon.online"
+        mastodon-active-user "michaelbkulik")
+  (setq mastodon-toot--enable-completion t))
 
 ;; --------------------------------------------------------------------------
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
