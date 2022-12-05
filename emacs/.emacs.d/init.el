@@ -47,8 +47,16 @@
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
+(setq org-directory "~/Documents/org/")
 (setq org-indent-mode-turns-on-hiding-stars nil)
 (setq org-default-notes-file "~/Documents/org/inbox.org")
+(setq org-capture-templates `(
+	("p" "Protocol" entry (file+headline ,(concat org-directory "weblinks.org") "Inbox")
+        "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+	("L" "Protocol Link" entry (file+headline ,(concat org-directory "weblinks.org") "Inbox")
+        "* %? [[%:link][%:description]] \nCaptured On: %U")
+    ))
+(require 'org-protocol)
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -88,6 +96,12 @@
 (setq minibuffer-prompt-properties
       '(read-only t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+;; tree-sitter
+(require 'treesit)
+(add-hook 'python-mode-hook 'python-ts-mode)
+(add-hook 'c-mode-hook 'c-ts-mode)
+(add-hook 'java-mode-hook 'java-ts-mode)
 
 ;;; ---------------------------------------------------------------------------
 ;;;
