@@ -103,6 +103,10 @@
 (add-hook 'c-mode-hook 'c-ts-mode)
 (add-hook 'java-mode-hook 'java-ts-mode)
 
+;; for project.el root
+(setq project-vc-extra-root-markers '("build.gradle.kts" ".project"))
+
+
 ;;; ---------------------------------------------------------------------------
 ;;;
 ;;; whitespace highlighting
@@ -178,12 +182,6 @@
         completion-ignore-case t)
   :init
   (vertico-mode))
-
-(use-package project-x
-  :load-path "~/.emacs.d/lisp/"
-  :after project
-  :config
-  (project-x-mode 1))
 
 (use-package eglot
   :ensure t
