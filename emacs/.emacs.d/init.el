@@ -43,10 +43,6 @@
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
 
-;;org mode
-;;(global-set-key (kbd "C-c l") #'org-store-link)
-;;(global-set-key (kbd "C-c a") #'org-agenda)
-;;(global-set-key (kbd "C-c c") #'org-capture)
 (setq org-directory "~/Documents/org/")
 (setq org-indent-mode-turns-on-hiding-stars nil)
 (setq org-default-notes-file "~/Documents/org/inbox.org")
@@ -183,6 +179,7 @@
   (setq eglot-autoshutdown t)
   (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) "clangd"))
   (add-to-list 'eglot-server-programs '(python-ts-mode) "pylsp")
+  (add-to-list 'eglot-server-programs '(java-ts-mode) "jdtls")
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'c++-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
