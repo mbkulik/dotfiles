@@ -44,19 +44,13 @@
 (global-unset-key (kbd "C-x C-z"))
 
 ;;org mode
-(global-set-key (kbd "C-c l") #'org-store-link)
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c c") #'org-capture)
+;;(global-set-key (kbd "C-c l") #'org-store-link)
+;;(global-set-key (kbd "C-c a") #'org-agenda)
+;;(global-set-key (kbd "C-c c") #'org-capture)
 (setq org-directory "~/Documents/org/")
 (setq org-indent-mode-turns-on-hiding-stars nil)
 (setq org-default-notes-file "~/Documents/org/inbox.org")
-(setq org-capture-templates `(
-	("p" "Protocol" entry (file+headline ,(concat org-directory "weblinks.org") "Inbox")
-        "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-	("L" "Protocol Link" entry (file+headline ,(concat org-directory "weblinks.org") "Inbox")
-        "* %? [[%:link][%:description]] \nCaptured On: %U")
-    ))
-(require 'org-protocol)
+(setq org-latex-pdf-process '("podman run --rm -v `pwd`:/docs:Z latex:latest %f"))
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -123,10 +117,10 @@
 (add-function :after after-focus-change-function 'garbage-collect)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
-(use-package mood-line
+(use-package minions
   :ensure t
   :init
-  (mood-line-mode))
+  (minions-mode))
 
 ;;; --------------------------------------------------------------------------
 ;;;
@@ -187,8 +181,8 @@
   :ensure t
   :config
   (setq eglot-autoshutdown t)
-  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
-  (add-to-list 'eglot-server-programs '(python-mode) "pyright-langserver --stdio")
+  (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) "clangd"))
+  (add-to-list 'eglot-server-programs '(python-ts-mode) "pylsp")
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'c++-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
