@@ -55,8 +55,8 @@
 ;; disable version control
 (setq vc-handled-backends ())
 
-;; better auto indentation
-(electric-indent-mode)
+;; dont indent based on previous line
+(setq-default electric-indent-inhibit t)
 
 ;; set backup and autosave to temp directory
 (setq backup-directory-alist
