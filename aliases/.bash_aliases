@@ -10,10 +10,9 @@ export CS620=$HOME/School/cs620/
 
 alias open='xdg-open 2> /dev/null'
 alias valgrind='valgrind --read-inline-info=no'
-alias e='emacsclient -n'
-alias eterm='emacsclient -t'
+alias e='emacsclient -n -r'
+alias et='emacsclient -nw'
 alias which='command -v'
-alias nightly='/opt/nightly/firefox &>/dev/null & disown'
 alias ipinfo='curl ipinfo.io'
 
 alias cs410c='cd $CS410c'
@@ -21,3 +20,4 @@ alias cs415='cd $CS415'
 alias cs416='cd $CS416'
 alias cs515='cd $CS515'
 alias cs620='cd $CS620'
+alias daily='cd $HOME/School/AY22-23/daily/'
