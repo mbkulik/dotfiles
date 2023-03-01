@@ -96,6 +96,8 @@
 ;; for project.el root
 (setq project-vc-extra-root-markers '("build.gradle.kts" ".project"))
 
+;; tramp shells should be bash
+(setq explicit-shell-file-name "/usr/bin/bash")
 
 ;;; ---------------------------------------------------------------------------
 ;;;
