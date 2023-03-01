@@ -108,8 +108,6 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'latex-mode-hook 'whitespace-mode)
 
-(setq use-package-compute-statistics t)
-
 (add-function :after after-focus-change-function 'garbage-collect)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
@@ -179,7 +177,7 @@
   (setq eglot-autoshutdown t)
   (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) "clangd"))
   (add-to-list 'eglot-server-programs '(python-ts-mode) "pylsp")
-  (add-to-list 'eglot-server-programs '(java-ts-mode) "jdtls")
+  (add-to-list 'eglot-server-programs '(java-mode) "jdtls")
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'c++-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
@@ -191,37 +189,8 @@
   (setq vterm-always-compile-module t)
   (setq vterm-kill-buffer-on-exit t))
 
-;; ---------------------------------------------------------------------------
-;;
-;; elfeed (rss reader)
-;;
-;; ---------------------------------------------------------------------------
-(use-package elfeed
-  :ensure t
-  :defer t
-  :bind ("C-x w" . elfeed)
-  :init
-  (setq elfeed-feeds
-        '("http://planet.emacslife.com/atom.xml"
-          "http://fedoraplanet.org/rss20.xml"
-          "http://planet.gnome.org/rss20.xml"
-          "https://www.phoronix.com/rss.php"
-          "https://blogs.gnome.org/shell-dev/rss"
-          "https://lemire.me/blog/feed/"
-          "https://kbd.news/rss.php"
-          "https://www.youtube.com/feeds/videos.xml?channel_id=UCT6AJiTYspOILBK3hMWEq2g"
-          "https://www.youtube.com/feeds/videos.xml?channel_id=UCOFH59uoSs8SUF0L_p3W0sg"
-          "https://www.youtube.com/feeds/videos.xml?channel_id=UCXlDgfWY2JbsYEam2m68Hyw"
-          "https://grapheneos.org/releases.atom")))
-
-
-
-(use-package mastodon
-  :ensure t
-  :config
-  (setq mastodon-instance-url "https://mastodon.online"
-        mastodon-active-user "michaelbkulik")
-  (setq mastodon-toot--enable-completion t))
+;;(use-package pdf-tools
+;;  :ensure t)
 
 ;; --------------------------------------------------------------------------
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
@@ -235,3 +204,36 @@
 (setq native-comp-async-report-warnings-errors nil)
 (when (fboundp 'native-compile-async)
   (setq comp-deferred-compilation t))
+
+
+;; ----------------------------------------------------------------------
+;;
+;; machine specific configuration: elfeed and mastodon
+;;
+;; ----------------------------------------------------------------------
+(when (string= (system-name) "precision")
+  (use-package elfeed
+    :ensure t
+    :defer t
+    :bind ("C-x w" . elfeed)
+    :init
+    (setq elfeed-feeds
+          '("http://planet.emacslife.com/atom.xml"
+            "http://fedoraplanet.org/rss20.xml"
+            "http://planet.gnome.org/rss20.xml"
+            "https://www.phoronix.com/rss.php"
+            "https://blogs.gnome.org/shell-dev/rss"
+            "https://lemire.me/blog/feed/"
+            "https://kbd.news/rss.php"
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UCT6AJiTYspOILBK3hMWEq2g"
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UCOFH59uoSs8SUF0L_p3W0sg"
+            "https://www.youtube.com/feeds/videos.xml?channel_id=UCXlDgfWY2JbsYEam2m68Hyw"
+            "https://grapheneos.org/releases.atom")))
+
+  (use-package mastodon
+    :ensure t
+    :config
+    (setq mastodon-instance-url "https://mastodon.online"
+          mastodon-active-user "michaelbkulik")
+    (setq mastodon-toot--enable-completion t))
+  )
