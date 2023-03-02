@@ -80,9 +80,6 @@
 ;; remove trailing whitespace on save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; make docview fit window size
-(add-hook 'doc-view-mode-hook 'doc-view-fit-height-to-window)
-
 (setq minibuffer-prompt-properties
       '(read-only t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
@@ -96,8 +93,10 @@
 ;; for project.el root
 (setq project-vc-extra-root-markers '("build.gradle.kts" ".project"))
 
-;; tramp shells should be bash
-(setq explicit-shell-file-name "/usr/bin/bash")
+(add-to-list 'tramp-connection-properties
+           (list (regexp-quote nil)
+                 "remote-shell" "/usr/bin/bash"))
+
 
 ;;; ---------------------------------------------------------------------------
 ;;;
@@ -191,8 +190,8 @@
   (setq vterm-always-compile-module t)
   (setq vterm-kill-buffer-on-exit t))
 
-;;(use-package pdf-tools
-;;  :ensure t)
+(use-package pdf-tools
+  :ensure t)
 
 ;; --------------------------------------------------------------------------
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
