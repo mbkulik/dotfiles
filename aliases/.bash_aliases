@@ -12,6 +12,8 @@ alias open='xdg-open 2> /dev/null'
 alias valgrind='valgrind --read-inline-info=no'
 alias e='emacsclient -n -r'
 alias et='emacsclient -nw'
+alias re='systemctl --user restart emacs.service'
+alias pdflatex='podman run --rm -v `pwd`:/docs:Z latex:latest'
 alias which='command -v'
 alias ipinfo='curl ipinfo.io'
 
