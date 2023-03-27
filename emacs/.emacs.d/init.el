@@ -47,6 +47,7 @@
 (setq org-indent-mode-turns-on-hiding-stars nil)
 (setq org-default-notes-file "~/Documents/org/inbox.org")
 (setq org-latex-pdf-process '("podman run --rm -v `pwd`:/docs:Z latex:latest %f"))
+(setq org-latex-remove-logfiles nil)
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -84,6 +85,9 @@
       '(read-only t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
+(setq eldoc-echo-area-prefer-doc-buffer t
+      eldoc-echo-area-use-multiline-p nil)
+
 ;; tree-sitter
 (require 'treesit)
 (add-hook 'python-mode-hook 'python-ts-mode)
@@ -92,11 +96,6 @@
 
 ;; for project.el root
 (setq project-vc-extra-root-markers '("build.gradle.kts" ".project"))
-
-(add-to-list 'tramp-connection-properties
-           (list (regexp-quote nil)
-                 "remote-shell" "/usr/bin/bash"))
-
 
 ;;; ---------------------------------------------------------------------------
 ;;;
@@ -141,6 +140,7 @@
   :config
   (load-theme 'almost-mono-white t))
 
+
 ;;; --------------------------------------------------------------------------
 ;;;
 ;;; writegood-mode
@@ -178,20 +178,17 @@
   (setq eglot-autoshutdown t)
   (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) "clangd"))
   (add-to-list 'eglot-server-programs '(python-ts-mode) "pylsp")
-  (add-to-list 'eglot-server-programs '(java-mode) "jdtls")
-  (add-hook 'c-mode-hook 'eglot-ensure)
-  (add-hook 'c++-mode-hook 'eglot-ensure)
-  (add-hook 'python-mode-hook 'eglot-ensure)
-  (add-hook 'java-mode-hook 'eglot-ensure))
+  (add-to-list 'eglot-server-programs '(java-ts-mode) "jdtls")
+  (add-hook 'c-ts-mode-hook 'eglot-ensure)
+  (add-hook 'c++-ts-mode-hook 'eglot-ensure)
+  (add-hook 'python-ts-mode-hook 'eglot-ensure)
+  (add-hook 'java-ts-mode-hook 'eglot-ensure))
 
 (use-package vterm
   :ensure t
   :config
   (setq vterm-always-compile-module t)
   (setq vterm-kill-buffer-on-exit t))
-
-(use-package pdf-tools
-  :ensure t)
 
 ;; --------------------------------------------------------------------------
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
