@@ -47,7 +47,7 @@
 (setq org-indent-mode-turns-on-hiding-stars nil)
 (setq org-default-notes-file "~/Documents/org/inbox.org")
 (setq org-latex-pdf-process '("podman run --rm -v `pwd`:/docs:Z latex:latest %f"))
-(setq org-latex-remove-logfiles nil)
+;;(setq org-latex-remove-logfiles nil)
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -190,6 +190,11 @@
   (setq vterm-always-compile-module t)
   (setq vterm-kill-buffer-on-exit t))
 
+(use-package gptel
+  :ensure t
+  :config
+  (setq gptel-default-mode "org-mode"))
+
 ;; --------------------------------------------------------------------------
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
 ;; --------------------------------------------------------------------------
@@ -203,35 +208,5 @@
 (when (fboundp 'native-compile-async)
   (setq comp-deferred-compilation t))
 
-
-;; ----------------------------------------------------------------------
-;;
-;; machine specific configuration: elfeed and mastodon
-;;
-;; ----------------------------------------------------------------------
-(when (string= (system-name) "precision")
-  (use-package elfeed
-    :ensure t
-    :defer t
-    :bind ("C-x w" . elfeed)
-    :init
-    (setq elfeed-feeds
-          '("http://planet.emacslife.com/atom.xml"
-            "http://fedoraplanet.org/rss20.xml"
-            "http://planet.gnome.org/rss20.xml"
-            "https://www.phoronix.com/rss.php"
-            "https://blogs.gnome.org/shell-dev/rss"
-            "https://lemire.me/blog/feed/"
-            "https://kbd.news/rss.php"
-            "https://www.youtube.com/feeds/videos.xml?channel_id=UCT6AJiTYspOILBK3hMWEq2g"
-            "https://www.youtube.com/feeds/videos.xml?channel_id=UCOFH59uoSs8SUF0L_p3W0sg"
-            "https://www.youtube.com/feeds/videos.xml?channel_id=UCXlDgfWY2JbsYEam2m68Hyw"
-            "https://grapheneos.org/releases.atom")))
-
-  (use-package mastodon
-    :ensure t
-    :config
-    (setq mastodon-instance-url "https://mastodon.online"
-          mastodon-active-user "michaelbkulik")
-    (setq mastodon-toot--enable-completion t))
-  )
+(if (file-exists-p "~/.emacs.d/secrets.el.gpg")
+    (load-library "~/.emacs.d/secrets.el.gpg"))
