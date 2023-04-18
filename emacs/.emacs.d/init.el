@@ -3,12 +3,6 @@
 ;; custom emacs file
 ;;
 
-;; start as a server
-(require 'server)
-(unless (server-running-p)
-  (server-start))
-
-
 ;; install and autoload emacs packages
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -175,7 +169,9 @@
 (use-package eglot
   :ensure t
   :config
+  (setq eglot-autoreconnect t)
   (setq eglot-autoshutdown t)
+  (setq eglot-events-buffer-size 0)
   (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) "clangd"))
   (add-to-list 'eglot-server-programs '(python-ts-mode) "pylsp")
   (add-to-list 'eglot-server-programs '(java-ts-mode) "jdtls")
@@ -189,11 +185,6 @@
   :config
   (setq vterm-always-compile-module t)
   (setq vterm-kill-buffer-on-exit t))
-
-(use-package gptel
-  :ensure t
-  :config
-  (setq gptel-default-mode "org-mode"))
 
 ;; --------------------------------------------------------------------------
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
