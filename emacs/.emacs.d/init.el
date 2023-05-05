@@ -234,6 +234,8 @@
 (global-set-key (kbd "C-x t") #'(lambda() (interactive)
                                   (vterm t)))
 
+(global-set-key (kbd "C-x r") #'(lambda() (interactive)
+                                  (byte-recompile-directory package-user-dir
+                                                            nil 'force)))
+
 (setq native-comp-async-report-warnings-errors nil)
-(when (fboundp 'native-compile-async)
-  (setq comp-deferred-compilation t))
