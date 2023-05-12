@@ -41,7 +41,6 @@
 (setq org-indent-mode-turns-on-hiding-stars nil)
 (setq org-default-notes-file "~/Documents/org/inbox.org")
 (setq org-latex-pdf-process '("podman run --rm -v `pwd`:/docs:Z latex:latest %f"))
-;;(setq org-latex-remove-logfiles nil)
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -211,6 +210,7 @@
             "https://www.youtube.com/feeds/videos.xml?channel_id=UCOFH59uoSs8SUF0L_p3W0sg"
             "https://www.youtube.com/feeds/videos.xml?channel_id=UCXlDgfWY2JbsYEam2m68Hyw"
             "https://grapheneos.org/releases.atom")))
+
 
   (use-package chatgpt-shell
     :ensure t
