@@ -102,7 +102,7 @@
 (add-hook 'latex-mode-hook 'whitespace-mode)
 
 (add-function :after after-focus-change-function 'garbage-collect)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq read-process-output-max (* 4 1024 1024)) ;; 4mb
 
 (use-package minions
   :ensure t
