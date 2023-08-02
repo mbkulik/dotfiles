@@ -205,10 +205,6 @@
             "https://www.phoronix.com/rss.php"
             "https://blogs.gnome.org/shell-dev/rss"
             "https://lemire.me/blog/feed/"
-            "https://kbd.news/rss.php"
-            "https://www.youtube.com/feeds/videos.xml?channel_id=UCT6AJiTYspOILBK3hMWEq2g"
-            "https://www.youtube.com/feeds/videos.xml?channel_id=UCOFH59uoSs8SUF0L_p3W0sg"
-            "https://www.youtube.com/feeds/videos.xml?channel_id=UCXlDgfWY2JbsYEam2m68Hyw"
             "https://grapheneos.org/releases.atom")))
 
 
