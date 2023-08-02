@@ -123,15 +123,13 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc"))
 
-;;; ---------------------------------------------------------------------------
+;;; --------------------------------------------------------------------------
 ;;;
-;;; almost-mono-white color theme
+;;; customized sketch theme (vendored)
 ;;;
-;;; ---------------------------------------------------------------------------
-(use-package almost-mono-themes
-  :ensure t
-  :config
-  (load-theme 'almost-mono-white t))
+;;; --------------------------------------------------------------------------
+(add-to-list 'load-path "~/.emacs.d/theme/")
+(load-theme 'sketch-white t)
 
 
 ;;; --------------------------------------------------------------------------
