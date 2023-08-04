@@ -129,6 +129,7 @@
 ;;;
 ;;; --------------------------------------------------------------------------
 (add-to-list 'load-path "~/.emacs.d/theme/")
+(require 'sketch-themes)
 (load-theme 'sketch-white t)
 
 
