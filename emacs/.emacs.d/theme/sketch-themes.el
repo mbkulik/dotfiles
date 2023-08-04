@@ -34,7 +34,7 @@
 
 (defconst sketch-themes-colors
   '((white . ((fg        . "#212121")
-              (bg        . "#FAFAFA")
+              (bg        . "#FFFFFF")
               (bg-alt    . "#efefef")
               (weak      . "#888888")
               (weaker    . "#dddddd")
