@@ -82,13 +82,16 @@
       eldoc-echo-area-use-multiline-p nil)
 
 ;; tree-sitter
-(require 'treesit)
-(add-hook 'python-mode-hook 'python-ts-mode)
-(add-hook 'c-mode-hook 'c-ts-mode)
-(add-hook 'java-mode-hook 'java-ts-mode)
+(setq major-mode-remap-alist
+      '((python-mode . python-ts-mode)
+        (c-mode . c-ts-mode)
+        (c++-mode . c++-ts-mode)
+        (java-mode . java-ts-mode)))
+
 
 ;; for project.el root
 (setq project-vc-extra-root-markers '("build.gradle.kts" ".project"))
+(setq project-vc-ignores '("bin/", "build/"))
 
 ;;; ---------------------------------------------------------------------------
 ;;;
@@ -232,5 +235,8 @@
 (global-set-key (kbd "C-x r") #'(lambda() (interactive)
                                   (byte-recompile-directory package-user-dir
                                                             nil 'force)))
+
+(global-set-key (kbd "C-x e") #'(lambda() (interactive)
+                                  (flymake-show-buffer-diagnostics)))
 
 (setq native-comp-async-report-warnings-errors nil)
