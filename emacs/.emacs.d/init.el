@@ -184,6 +184,9 @@
 (use-package vterm
   :ensure t
   :config
+  (add-to-list 'vterm-tramp-shells '("ssh" "/bin/bash"))
+  (add-to-list 'vterm-tramp-shells '("sshx" "/bin/bash"))
+  (setq vterm-shell "/bin/bash")
   (setq vterm-always-compile-module t)
   (setq vterm-kill-buffer-on-exit t))
 
