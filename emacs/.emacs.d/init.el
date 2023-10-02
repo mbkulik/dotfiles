@@ -104,8 +104,11 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'latex-mode-hook 'whitespace-mode)
 
-(add-function :after after-focus-change-function 'garbage-collect)
-(setq read-process-output-max (* 4 1024 1024)) ;; 4mb
+
+(use-package gcmh
+  :ensure t
+  :config
+  (gcmh-mode t))
 
 (use-package minions
   :ensure t
@@ -167,8 +170,12 @@
   :init
   (vertico-mode))
 
+
+
 (use-package eglot
   :ensure t
+  :init
+  (fset #'jsonrpc--log-event #'ignore)
   :config
   (setq eglot-autoreconnect t)
   (setq eglot-autoshutdown t)
