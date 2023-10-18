@@ -81,6 +81,9 @@
 (setq eldoc-echo-area-prefer-doc-buffer t
       eldoc-echo-area-use-multiline-p nil)
 
+;;enable .rs file open in rust-mode
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
+
 ;; tree-sitter
 (setq major-mode-remap-alist
       '((python-mode . python-ts-mode)
@@ -139,6 +142,7 @@
 (load-theme 'sketch-white t)
 
 
+
 ;;; --------------------------------------------------------------------------
 ;;;
 ;;; writegood-mode
@@ -154,6 +158,16 @@
 ;;; lsp  packages
 ;;;
 ;;; --------------------------------------------------------------------------
+(use-package orderless
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
+
 (use-package company
   :ensure t
   :init
@@ -183,10 +197,12 @@
   (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) "clangd"))
   (add-to-list 'eglot-server-programs '(python-ts-mode) "pylsp")
   (add-to-list 'eglot-server-programs '(java-ts-mode) "jdtls")
+  (add-to-list 'eglot-server-programs '(rust-ts-mode) "rust-analyzer")
   (add-hook 'c-ts-mode-hook 'eglot-ensure)
   (add-hook 'c++-ts-mode-hook 'eglot-ensure)
   (add-hook 'python-ts-mode-hook 'eglot-ensure)
-  (add-hook 'java-ts-mode-hook 'eglot-ensure))
+  (add-hook 'java-ts-mode-hook 'eglot-ensure)
+  (add-hook 'rust-ts-mode-hook 'eglot-ensure))
 
 (use-package vterm
   :ensure t
