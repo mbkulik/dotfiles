@@ -32,6 +32,7 @@
 (setq font-use-system-font t)
 (setq pixel-scroll-precision-mode t)
 (setq visible-bell t)
+(setq kill-whole-line t)
 
 ;; ignore suspend-frame
 (global-unset-key (kbd "C-z"))
@@ -158,16 +159,6 @@
 ;;; lsp  packages
 ;;;
 ;;; --------------------------------------------------------------------------
-(use-package orderless
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
-
-
 (use-package company
   :ensure t
   :init
@@ -177,14 +168,14 @@
 
 (use-package vertico
   :ensure t
-  :config
-  (setq read-file-name-completion-ignore-case t
-        read-buffer-completion-ignore-case t
-        completion-ignore-case t)
   :init
   (vertico-mode))
 
-
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package eglot
   :ensure t
@@ -233,7 +224,8 @@
             "https://www.phoronix.com/rss.php"
             "https://blogs.gnome.org/shell-dev/rss"
             "https://lemire.me/blog/feed/"
-            "https://grapheneos.org/releases.atom")))
+            "https://grapheneos.org/releases.atom"
+            "https://liliputing.com/feed/")))
 
 
   (use-package chatgpt-shell
