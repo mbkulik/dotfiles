@@ -172,6 +172,7 @@
   (vertico-mode))
 
 (use-package orderless
+  :ensure t
   :init
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
