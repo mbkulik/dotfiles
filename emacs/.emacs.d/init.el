@@ -176,7 +176,8 @@
   :init
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+        completion-category-overrides '((file (styles partial-completion))
+                                        (eglot(styles orderless)))))
 
 (use-package eglot
   :ensure t
@@ -227,13 +228,6 @@
             "https://lemire.me/blog/feed/"
             "https://grapheneos.org/releases.atom"
             "https://liliputing.com/feed/")))
-
-
-  (use-package chatgpt-shell
-    :ensure t
-    :config
-    (setq chatgpt-shell-openai-key
-          (auth-source-pick-first-password :host "api.openai.com")))
 
   (use-package mastodon
     :ensure t
