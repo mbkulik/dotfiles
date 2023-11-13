@@ -221,13 +221,11 @@
     :init
     (setq elfeed-feeds
           '("http://planet.emacslife.com/atom.xml"
-            "http://fedoraplanet.org/rss20.xml"
             "http://planet.gnome.org/rss20.xml"
             "https://www.phoronix.com/rss.php"
             "https://blogs.gnome.org/shell-dev/rss"
             "https://lemire.me/blog/feed/"
-            "https://grapheneos.org/releases.atom"
-            "https://liliputing.com/feed/")))
+            "https://grapheneos.org/releases.atom")))
 
   (use-package mastodon
     :ensure t
