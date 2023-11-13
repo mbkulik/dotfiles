@@ -6,7 +6,8 @@
 ;; install and autoload emacs packages
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 (package-initialize)
 
 (if (not (package-installed-p 'use-package))
@@ -91,7 +92,6 @@
         (c-mode . c-ts-mode)
         (c++-mode . c++-ts-mode)
         (java-mode . java-ts-mode)))
-
 
 ;; for project.el root
 (setq project-vc-extra-root-markers '("build.gradle.kts" ".project"))
@@ -197,20 +197,12 @@
   (add-hook 'java-ts-mode-hook 'eglot-ensure)
   (add-hook 'rust-ts-mode-hook 'eglot-ensure))
 
-(use-package vterm
-  :ensure t
-  :config
-  (add-to-list 'vterm-tramp-shells '("ssh" "/bin/bash"))
-  (add-to-list 'vterm-tramp-shells '("sshx" "/bin/bash"))
-  (setq vterm-shell "/bin/bash")
-  (setq vterm-always-compile-module t)
-  (setq vterm-kill-buffer-on-exit t))
-
-
+(use-package eat
+  :ensure t)
 
 ;; ----------------------------------------------------------------------
 ;;
-;; machine specific configuration: elfeed, mastodon, chatgpt-shell
+;; machine specific configuration: elfeed, mastodon
 ;;
 ;; ----------------------------------------------------------------------
 (when (string= (system-name) "precision")
@@ -240,8 +232,9 @@
 (global-set-key (kbd "C-x k") #'(lambda() (interactive)
                                   (kill-buffer (current-buffer))))
 
-(global-set-key (kbd "C-x t") #'(lambda() (interactive)
-                                  (vterm t)))
+(global-set-key (kbd "C-x t") #'eat)
+
+(global-set-key (kbd "C-x p") #'eat-send-password)
 
 (global-set-key (kbd "C-x r") #'(lambda() (interactive)
                                   (byte-recompile-directory package-user-dir
