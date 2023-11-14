@@ -142,8 +142,6 @@
 (require 'sketch-themes)
 (load-theme 'sketch-white t)
 
-
-
 ;;; --------------------------------------------------------------------------
 ;;;
 ;;; writegood-mode
@@ -159,12 +157,15 @@
 ;;; lsp  packages
 ;;;
 ;;; --------------------------------------------------------------------------
-(use-package company
+(use-package corfu
   :ensure t
   :init
-  (setq company-minimum-prefix-length 1)
-  (global-set-key (kbd "TAB") #'company-indent-or-complete-common)
-  :hook (prog-mode . company-mode))
+  (global-corfu-mode)
+  :config
+  (setq corfu-auto t)
+  (setq corfu-quit-no-match 'separator)
+  (setq completion-cycle-threshold 3)
+  (setq tab-always-indent 'complete))
 
 (use-package vertico
   :ensure t
@@ -176,8 +177,7 @@
   :init
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion))
-                                        (eglot(styles orderless)))))
+        completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package eglot
   :ensure t
