@@ -200,7 +200,9 @@
   (add-hook 'rust-ts-mode-hook 'eglot-ensure))
 
 (use-package eat
-  :ensure t)
+  :ensure t
+  :config
+  (setq eat-kill-buffer-on-exit t))
 
 ;; ----------------------------------------------------------------------
 ;;
