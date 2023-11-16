@@ -97,6 +97,8 @@
 (setq project-vc-extra-root-markers '("build.gradle.kts" ".project"))
 (setq project-vc-ignores '("bin/", "build/"))
 
+(setq explicit-shell-file-name "/bin/bash")
+
 ;;; ---------------------------------------------------------------------------
 ;;;
 ;;; whitespace highlighting
