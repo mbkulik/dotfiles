@@ -161,11 +161,15 @@
 ;;; --------------------------------------------------------------------------
 (use-package corfu
   :ensure t
+  :custom
+  (corfu-cycle t)
+  (corfu-separator ?\s)
+  (corfu-scroll-margin 5)
   :init
-  (global-corfu-mode)
-  :config
-  (setq corfu-auto t)
-  (setq corfu-quit-no-match 'separator)
+  (global-corfu-mode))
+
+(use-package emacs
+  :init
   (setq completion-cycle-threshold 3)
   (setq tab-always-indent 'complete))
 
