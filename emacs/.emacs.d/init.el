@@ -225,7 +225,8 @@
             "https://www.phoronix.com/rss.php"
             "https://blogs.gnome.org/shell-dev/rss"
             "https://lemire.me/blog/feed/"
-            "https://grapheneos.org/releases.atom")))
+            "https://grapheneos.org/releases.atom"
+            "http://fedoraplanet.org/rss20.xml")))
 
   (use-package mastodon
     :ensure t
