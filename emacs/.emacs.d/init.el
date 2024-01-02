@@ -84,14 +84,7 @@
       eldoc-echo-area-use-multiline-p nil)
 
 ;;enable .rs file open in rust-mode
-(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
-
-;; tree-sitter
-(setq major-mode-remap-alist
-      '((python-mode . python-ts-mode)
-        (c-mode . c-ts-mode)
-        (c++-mode . c++-ts-mode)
-        (java-mode . java-ts-mode)))
+;;(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
 
 ;; for project.el root
 (setq project-vc-extra-root-markers '("build.gradle.kts" ".project"))
@@ -171,7 +164,16 @@
 (use-package emacs
   :init
   (setq completion-cycle-threshold 3)
-  (setq tab-always-indent 'complete))
+  (setq tab-always-indent 'complete)
+  (setq treesit-language-source-alist
+        '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+          (python "https://github.com/tree-sitter/tree-sitter-python")
+          (c "https://github.com/tree-sitter/tree-sitter-c")
+          (java "https://github.com/tree-sitter/tree-sitter-java")))
+  (setq major-mode-remap-alist '((c++-mode . c++-ts-mode)
+			                     (python-mode . python-ts-mode)
+			                     (c-mode . c-ts-mode)
+                                 (java-mode . java-ts-mode))))
 
 (use-package vertico
   :ensure t
@@ -196,12 +198,12 @@
   (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) "clangd"))
   (add-to-list 'eglot-server-programs '(python-ts-mode) "pylsp")
   (add-to-list 'eglot-server-programs '(java-ts-mode) "jdtls")
-  (add-to-list 'eglot-server-programs '(rust-ts-mode) "rust-analyzer")
+  ;;(add-to-list 'eglot-server-programs '(rust-ts-mode) "rust-analyzer")
   (add-hook 'c-ts-mode-hook 'eglot-ensure)
   (add-hook 'c++-ts-mode-hook 'eglot-ensure)
   (add-hook 'python-ts-mode-hook 'eglot-ensure)
-  (add-hook 'java-ts-mode-hook 'eglot-ensure)
-  (add-hook 'rust-ts-mode-hook 'eglot-ensure))
+  (add-hook 'java-ts-mode-hook 'eglot-ensure))
+  ;;(add-hook 'rust-ts-mode-hook 'eglot-ensure))
 
 (use-package eat
   :ensure t
