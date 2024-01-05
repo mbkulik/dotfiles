@@ -171,8 +171,8 @@
           (c "https://github.com/tree-sitter/tree-sitter-c")
           (java "https://github.com/tree-sitter/tree-sitter-java")))
   (setq major-mode-remap-alist '((c++-mode . c++-ts-mode)
-			                     (python-mode . python-ts-mode)
-			                     (c-mode . c-ts-mode)
+                                 (python-mode . python-ts-mode)
+                                 (c-mode . c-ts-mode)
                                  (java-mode . java-ts-mode))))
 
 (use-package vertico
@@ -210,6 +210,13 @@
   :config
   (setq eat-kill-buffer-on-exit t))
 
+(use-package mastodon
+  :ensure t
+  :config
+  (setq mastodon-instance-url "https://mastodon.online"
+        mastodon-active-user "michaelbkulik")
+  (setq mastodon-toot--enable-completion t))
+
 ;; ----------------------------------------------------------------------
 ;;
 ;; machine specific configuration: elfeed, mastodon
@@ -228,14 +235,7 @@
             "https://blogs.gnome.org/shell-dev/rss"
             "https://lemire.me/blog/feed/"
             "https://grapheneos.org/releases.atom"
-            "http://fedoraplanet.org/rss20.xml")))
-
-  (use-package mastodon
-    :ensure t
-    :config
-    (setq mastodon-instance-url "https://mastodon.online"
-          mastodon-active-user "michaelbkulik")
-    (setq mastodon-toot--enable-completion t)))
+            "http://fedoraplanet.org/rss20.xml"))))
 
 ;; --------------------------------------------------------------------------
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
