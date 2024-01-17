@@ -4,17 +4,9 @@
 ;;
 
 ;; install and autoload emacs packages
-(require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-(package-initialize)
-
-(if (not (package-installed-p 'use-package))
-    (progn
-      (package-refresh-contents)
-      (package-install 'use-package)))
-
 (require 'use-package)
 
 ;;------------------------------------------------------------------------------
