@@ -22,6 +22,7 @@
 (tool-bar-mode -1)
 (setq inhibit-splash-screen t)
 (setq initial-scratch-message nil)
+
 (setq font-use-system-font t)
 (setq pixel-scroll-precision-mode t)
 (setq visible-bell t)
@@ -31,9 +32,9 @@
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
 
-(setq org-directory "~/Documents/org/")
+(setq org-directory "~/Sync/org/")
 (setq org-indent-mode-turns-on-hiding-stars nil)
-(setq org-default-notes-file "~/Documents/org/inbox.org")
+(setq org-default-notes-file "~/Sync/org/Inbox.org")
 (setq org-latex-pdf-process '("podman run --rm -v `pwd`:/docs:Z latex:latest %f"))
 
 ;; disable version control
@@ -227,7 +228,8 @@
             "https://blogs.gnome.org/shell-dev/rss"
             "https://lemire.me/blog/feed/"
             "https://grapheneos.org/releases.atom"
-            "http://fedoraplanet.org/rss20.xml"))))
+            "http://fedoraplanet.org/rss20.xml"
+            "https://hackaday.com/feed"))))
 
 ;; --------------------------------------------------------------------------
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
