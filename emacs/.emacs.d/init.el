@@ -32,7 +32,11 @@
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
 
+
+(require 'org)
+(require 'org-archive)
 (setq org-directory "~/Sync/org/")
+(setq org-archive-location "~/Sync/org/archive/archive.org::")
 (setq org-indent-mode-turns-on-hiding-stars nil)
 (setq org-default-notes-file "~/Sync/org/Inbox.org")
 (setq org-latex-pdf-process '("podman run --rm -v `pwd`:/docs:Z latex:latest %f"))
