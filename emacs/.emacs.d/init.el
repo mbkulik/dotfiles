@@ -44,9 +44,6 @@
 ;; disable version control
 (setq vc-handled-backends ())
 
-;; dont indent based on previous line
-(setq-default electric-indent-inhibit t)
-
 ;; set backup and autosave to temp directory
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
@@ -80,9 +77,6 @@
 (setq eldoc-echo-area-prefer-doc-buffer t
       eldoc-echo-area-use-multiline-p nil)
 
-;;enable .rs file open in rust-mode
-;;(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
-
 ;; for project.el root
 (setq project-vc-extra-root-markers '("build.gradle.kts" ".project"))
 (setq project-vc-ignores '("bin/", "build/"))
@@ -99,7 +93,6 @@
 (setq whitespace-style '(face lines-tail))
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'latex-mode-hook 'whitespace-mode)
-
 
 (use-package gcmh
   :ensure t
@@ -133,6 +126,7 @@
 (add-to-list 'load-path "~/.emacs.d/theme/")
 (require 'sketch-themes)
 (load-theme 'sketch-white t)
+
 
 ;;; --------------------------------------------------------------------------
 ;;;
@@ -186,21 +180,14 @@
 
 (use-package eglot
   :ensure t
-  :init
-  (fset #'jsonrpc--log-event #'ignore)
   :config
-  (setq eglot-autoreconnect t)
-  (setq eglot-autoshutdown t)
   (setq eglot-events-buffer-size 0)
-  (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) "clangd"))
-  (add-to-list 'eglot-server-programs '(python-ts-mode) "pylsp")
-  (add-to-list 'eglot-server-programs '(java-ts-mode) "jdtls")
-  ;;(add-to-list 'eglot-server-programs '(rust-ts-mode) "rust-analyzer")
+  (setq eglot-ignored-server-capabilites '((:inlayHintProvider
+                                            :didChangeWorkspaceFolders)))
   (add-hook 'c-ts-mode-hook 'eglot-ensure)
   (add-hook 'c++-ts-mode-hook 'eglot-ensure)
   (add-hook 'python-ts-mode-hook 'eglot-ensure)
   (add-hook 'java-ts-mode-hook 'eglot-ensure))
-  ;;(add-hook 'rust-ts-mode-hook 'eglot-ensure))
 
 (use-package eat
   :ensure t
@@ -231,7 +218,6 @@
             "https://www.phoronix.com/rss.php"
             "https://blogs.gnome.org/shell-dev/rss"
             "https://lemire.me/blog/feed/"
-            "https://grapheneos.org/releases.atom"
             "http://fedoraplanet.org/rss20.xml"
             "https://hackaday.com/feed"))))
 
