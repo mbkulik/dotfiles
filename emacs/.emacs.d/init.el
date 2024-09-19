@@ -93,15 +93,14 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (add-hook 'latex-mode-hook 'whitespace-mode)
 
-(use-package modus-themes
-  :ensure t
-  :config
-  (setq modus-themes-common-palette-overrides
-      '((border-mode-line-active unspecified)
-        (border-mode-line-inactive unspecified)
-        (bg-region bg-yellow-intense)
-	    (fringe unspecified)))
-  (load-theme 'modus-operandi t))
+;;; --------------------------------------------------------------------------
+;;;
+;;; customized sketch theme (vendored)
+;;;
+;;; --------------------------------------------------------------------------
+(add-to-list 'load-path "~/.emacs.d/theme/")
+(require 'sketch-themes)
+(load-theme 'sketch-white t)
 
 (use-package gcmh
   :ensure t

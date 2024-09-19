@@ -42,7 +42,8 @@
               (highlight . "#fee761")
               (success   . "#63c74d")
               (warning   . "#e43b44")
-              (string     . "#3c5e2b")))
+              (string    . "#316500")))
+              ;;(string     . "#3c5e2b")))
 
     (black . ((fg        . "#f0f6f0")
               (bg        . "#222323")
@@ -125,7 +126,7 @@ VARIANT is bound."
       (font-lock-doc-face (:inherit font-lock-comment-face))
       (font-lock-function-name-face (:foreground ,fg :bold t))
       (font-lock-keyword-face (:foreground ,fg))
-      (font-lock-string-face (:foreground ,weak))
+      (font-lock-string-face (:foreground , string))
       (font-lock-type-face (:foreground ,fg))
       (font-lock-variable-name-face (:foreground ,fg :bold t))
       (font-lock-warning-face (:underline (:color ,warning :style wave)))
