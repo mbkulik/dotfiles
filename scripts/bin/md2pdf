@@ -1,3 +1,0 @@
-#!/bin/sh
-
-pandoc -f markdown_github -t latex -s --self-contained -V colorlinks "$1" -o "${1%.md}.pdf"

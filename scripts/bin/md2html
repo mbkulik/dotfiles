@@ -1,4 +1,0 @@
-#!/bin/bash
-
-pandoc -f markdown_github -t html5 -s --css ~/lib/pandoc.css --self-contained "$1" \
--o "${1%.md}.html"
