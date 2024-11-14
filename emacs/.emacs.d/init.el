@@ -9,6 +9,16 @@
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 (require 'use-package)
 
+;; compile elisp to byte-code and/or native-code
+(use-package compile-angel
+  :ensure t
+  :demand t
+  :vc (:url "https://github.com/jamescherti/compile-angel.el.git"
+       :branch "main")
+  :config
+  (compile-angel-on-save-mode)
+  (compile-angel-on-load-mode))
+
 ;;------------------------------------------------------------------------------
 ;;
 ;; Theme and Visual behavior
