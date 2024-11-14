@@ -2,9 +2,9 @@
 
 echo "cleaning java workspace"
 
-killall -s SIGKILL java
+killall -s SIGKILL -q java
 
 rm -rf ${PWD}/bin/
 rm -rf ${PWD}/build/
 rm -rf ${PWD}/.settings/
-rm -f ${PWD}.classpath
+rm -f ${PWD}/.classpath
