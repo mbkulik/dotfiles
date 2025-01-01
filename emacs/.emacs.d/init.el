@@ -13,8 +13,6 @@
 (use-package compile-angel
   :ensure t
   :demand t
-  :vc (:url "https://github.com/jamescherti/compile-angel.el.git"
-       :branch "main")
   :config
   (compile-angel-on-save-mode)
   (compile-angel-on-load-mode))
@@ -73,8 +71,8 @@
 (add-hook 'text-mode-hook 'flyspell-mode)
 
 ;; spell check in tex mode
-(add-hook 'tex-mode-hook
-          #'(lambda () (setq ispell-parser 'tex)))
+;;(add-hook 'tex-mode-hook
+;;          #'(lambda () (setq ispell-parser 'tex)))
 
 ;; remove trailing whitespace on save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -160,6 +158,12 @@
   :init
   (global-corfu-mode))
 
+(use-package verilog-ts-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.s?vh?\\'" . verilog-ts-mode)))
+
+
 (use-package emacs
   :init
   (setq completion-cycle-threshold 3)
@@ -168,7 +172,8 @@
         '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
           (python "https://github.com/tree-sitter/tree-sitter-python")
           (c "https://github.com/tree-sitter/tree-sitter-c")
-          (java "https://github.com/tree-sitter/tree-sitter-java")))
+          (java "https://github.com/tree-sitter/tree-sitter-java")
+          (verilog "https://github.com/gmlarumbe/tree-sitter-systemverilog")))
   (setq major-mode-remap-alist '((c++-mode . c++-ts-mode)
                                  (python-mode . python-ts-mode)
                                  (c-mode . c-ts-mode)
@@ -189,13 +194,16 @@
 (use-package eglot
   :ensure t
   :config
+  (add-to-list 'eglot-server-programs
+               '(verilog-ts-mode . ("verible-verilog-ls")))
   (setq eglot-events-buffer-size 0)
   (setq eglot-ignored-server-capabilites '((:inlayHintProvider
                                             :didChangeWorkspaceFolders)))
   (add-hook 'c-ts-mode-hook 'eglot-ensure)
   (add-hook 'c++-ts-mode-hook 'eglot-ensure)
   (add-hook 'python-ts-mode-hook 'eglot-ensure)
-  (add-hook 'java-ts-mode-hook 'eglot-ensure))
+  (add-hook 'java-ts-mode-hook 'eglot-ensure)
+  (add-hook 'verilog-ts-mode-hook 'eglot-ensure))
 
 (use-package eat
   :ensure t
