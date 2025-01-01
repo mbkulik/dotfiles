@@ -235,7 +235,8 @@
             "https://blogs.gnome.org/shell-dev/rss"
             "https://lemire.me/blog/feed/"
             "http://fedoraplanet.org/rss20.xml"
-            "https://hackaday.com/feed"))))
+            "https://hackaday.com/feed"
+            "https://inside.java/feed.xml"))))
 
 ;; --------------------------------------------------------------------------
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
