@@ -85,7 +85,7 @@
       eldoc-echo-area-use-multiline-p nil)
 
 ;; for project.el root
-(setq project-vc-extra-root-markers '("build.gradle.kts" ".project"))
+(setq project-vc-extra-root-markers '("build.gradle.kts" ".project" "Cargo.toml"))
 (setq project-vc-ignores '("bin/", "build/"))
 
 (setq explicit-shell-file-name "/bin/bash")
@@ -173,7 +173,9 @@
           (python "https://github.com/tree-sitter/tree-sitter-python")
           (c "https://github.com/tree-sitter/tree-sitter-c")
           (java "https://github.com/tree-sitter/tree-sitter-java")
-          (verilog "https://github.com/gmlarumbe/tree-sitter-systemverilog")))
+          (verilog "https://github.com/gmlarumbe/tree-sitter-systemverilog")
+          (rust "https://github.com/tree-sitter/tree-sitter-rust")))
+  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
   (setq major-mode-remap-alist '((c++-mode . c++-ts-mode)
                                  (python-mode . python-ts-mode)
                                  (c-mode . c-ts-mode)
@@ -203,7 +205,8 @@
   (add-hook 'c++-ts-mode-hook 'eglot-ensure)
   (add-hook 'python-ts-mode-hook 'eglot-ensure)
   (add-hook 'java-ts-mode-hook 'eglot-ensure)
-  (add-hook 'verilog-ts-mode-hook 'eglot-ensure))
+  (add-hook 'verilog-ts-mode-hook 'eglot-ensure)
+  (add-hook 'rust-ts-mode-hook 'eglot-ensure))
 
 (use-package eat
   :ensure t
