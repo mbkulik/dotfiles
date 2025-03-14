@@ -70,10 +70,6 @@
 (setq ispell-dictionary "en_US")
 (add-hook 'text-mode-hook 'flyspell-mode)
 
-;; spell check in tex mode
-;;(add-hook 'tex-mode-hook
-;;          #'(lambda () (setq ispell-parser 'tex)))
-
 ;; remove trailing whitespace on save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
