@@ -244,10 +244,6 @@
 
 (global-set-key (kbd "C-x p") #'eat-send-password)
 
-(global-set-key (kbd "C-x r") #'(lambda() (interactive)
-                                  (byte-recompile-directory package-user-dir
-                                                            nil 'force)))
-
 (global-set-key (kbd "C-x e") #'(lambda() (interactive)
                                   (flymake-show-buffer-diagnostics)))
 
