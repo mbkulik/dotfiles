@@ -213,13 +213,6 @@
   :config
   (setq eat-kill-buffer-on-exit t))
 
-(use-package mastodon
-  :ensure t
-  :config
-  (setq mastodon-instance-url "https://mastodon.online"
-        mastodon-active-user "michaelbkulik")
-  (setq mastodon-toot--enable-completion t))
-
 ;; ----------------------------------------------------------------------
 ;;
 ;; machine specific configuration: elfeed, mastodon
