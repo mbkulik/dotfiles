@@ -213,27 +213,6 @@
   :config
   (setq eat-kill-buffer-on-exit t))
 
-;; ----------------------------------------------------------------------
-;;
-;; machine specific configuration: elfeed, mastodon
-;;
-;; ----------------------------------------------------------------------
-(when (string= (system-name) "precision")
-  (use-package elfeed
-    :ensure t
-    :defer t
-    :bind ("C-x w" . elfeed)
-    :init
-    (setq elfeed-feeds
-          '("http://planet.emacslife.com/atom.xml"
-            "http://planet.gnome.org/rss20.xml"
-            "https://www.phoronix.com/rss.php"
-            "https://blogs.gnome.org/shell-dev/rss"
-            "https://lemire.me/blog/feed/"
-            "http://fedoraplanet.org/rss20.xml"
-            "https://hackaday.com/feed"
-            "https://inside.java/feed.xml"))))
-
 ;; --------------------------------------------------------------------------
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
 ;; --------------------------------------------------------------------------
