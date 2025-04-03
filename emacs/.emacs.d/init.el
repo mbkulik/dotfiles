@@ -36,6 +36,9 @@
 (setq visible-bell t)
 (setq kill-whole-line t)
 
+(setq scroll-conservatively 10)
+(setq scroll-margin 15)
+
 ;; ignore suspend-frame
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
