@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+java -jar ~/bin/lib/checkstyle-10.21.1-all.jar -c ~/bin/conf/intro_cs_checkstyle.xml $1
