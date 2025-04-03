@@ -198,6 +198,7 @@
   (add-to-list 'eglot-server-programs
                '(verilog-ts-mode . ("verible-verilog-ls")))
   (setq eglot-events-buffer-size 0)
+  (fset #'jsonrpc--log-event #'ignore)
   (setq eglot-ignored-server-capabilites '((:inlayHintProvider
                                             :didChangeWorkspaceFolders)))
   (add-hook 'c-ts-mode-hook 'eglot-ensure)
