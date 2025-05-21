@@ -43,6 +43,16 @@
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
 
+
+;; garbage collection tweaks
+;; https://jackjamison.xyz/blog/emacs-garbage-collection/
+(defun my-minibuffer-setup-hook ()
+  (setq gc-cons-threshold most-positive-fixnum))
+(defun my-minibuffer-exit-hook ()
+  (setq gc-cons-threshold 800000000))
+(setq gc-cons-threshold most-positive-fixnum)
+(run-with-idle-timer 1.2 t 'garbage-collect)
+
 (require 'org)
 (require 'org-archive)
 (setq org-directory "~/Sync/org/")
@@ -109,10 +119,10 @@
 (require 'sketch-themes)
 (load-theme 'sketch-white t)
 
-(use-package gcmh
-  :ensure t
-  :config
-  (gcmh-mode t))
+;;(use-package gcmh
+;;  :ensure t
+;;  :config
+;;  (gcmh-mode t))
 
 (use-package minions
   :ensure t
