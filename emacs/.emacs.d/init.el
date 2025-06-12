@@ -55,10 +55,10 @@
 
 (require 'org)
 (require 'org-archive)
-(setq org-directory "~/Sync/org/")
-(setq org-archive-location "~/Sync/org/archive/archive.org::")
+(setq org-directory "~/Shared/org/")
+(setq org-archive-location "~/Shared/org/archive/archive.org::")
 (setq org-indent-mode-turns-on-hiding-stars nil)
-(setq org-default-notes-file "~/Sync/org/Inbox.org")
+(setq org-default-notes-file "~/Shared/org/Inbox.org")
 (setq org-latex-pdf-process '("podman run --rm -v `pwd`:/docs:Z latex:latest %f"))
 
 ;; disable version control
@@ -118,11 +118,6 @@
 (add-to-list 'load-path "~/.emacs.d/theme/")
 (require 'sketch-themes)
 (load-theme 'sketch-white t)
-
-;;(use-package gcmh
-;;  :ensure t
-;;  :config
-;;  (gcmh-mode t))
 
 (use-package minions
   :ensure t
