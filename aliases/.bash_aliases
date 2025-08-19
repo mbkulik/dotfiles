@@ -5,7 +5,7 @@
 export CS410c=$HOME/School/cs410c/
 export CS416=$HOME/School/cs416/
 export CS420=$HOME/School/cs420/
-export CS515=$HOME/School/cs515/cs515-java/
+export CS515=$HOME/School/cs515/
 
 alias open='xdg-open 2> /dev/null'
 alias valgrind='valgrind --read-inline-info=no'
