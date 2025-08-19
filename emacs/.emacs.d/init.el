@@ -54,6 +54,7 @@
 (run-with-idle-timer 1.2 t 'garbage-collect)
 
 (require 'org)
+(setq org-cycle-separator-lines 2)
 (require 'org-archive)
 (setq org-directory "~/Documents/org/")
 (setq org-archive-location "~/Documents/org/archive/archive.org::")
