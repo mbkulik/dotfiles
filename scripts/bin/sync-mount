@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-fusermount -uq ~/Sync
-
-sshfs odroid:/data/mbkulik/Sync ~/Sync -o reconnect
