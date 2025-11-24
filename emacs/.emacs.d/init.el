@@ -17,11 +17,11 @@
   (compile-angel-on-save-mode)
   (compile-angel-on-load-mode))
 
-;;------------------------------------------------------------------------------
+;;-----------------------------------------------------------------------------
 ;;
 ;; Theme and Visual behavior
 ;;
-;;------------------------------------------------------------------------------
+;;-----------------------------------------------------------------------------
 
 ;; https://tony-zorman.com/posts/2022-10-22-emacs-potpourri.html
 (setq frame-inhibit-implied-resize t)
@@ -43,24 +43,20 @@
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
 
+(use-package gcmh
+  :ensure t
+  :hook (after-init . gcmh-mode)
+  :custom
+  ; Default is 15s; 0.5s is better for snappy performance
+  (gcmh-idle-delay 0.5)
+  (gcmh-high-cons-threshold (* 16 1024 1024))) ; 16MB limit during active use
 
-;; garbage collection tweaks
-;; https://jackjamison.xyz/blog/emacs-garbage-collection/
-(defun my-minibuffer-setup-hook ()
-  (setq gc-cons-threshold most-positive-fixnum))
-(defun my-minibuffer-exit-hook ()
-  (setq gc-cons-threshold 800000000))
-(setq gc-cons-threshold most-positive-fixnum)
-(run-with-idle-timer 1.2 t 'garbage-collect)
-
-(require 'org)
-(setq org-cycle-separator-lines 2)
-(require 'org-archive)
-(setq org-directory "~/Documents/org/")
-(setq org-archive-location "~/Documents/org/archive/archive.org::")
-(setq org-indent-mode-turns-on-hiding-stars nil)
-(setq org-default-notes-file "~/Documents/org/Inbox.org")
-(setq org-latex-pdf-process '("podman run --rm -v `pwd`:/docs:Z latex:latest %f"))
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode)
+  :custom
+  (vertico-cycle t))
 
 ;; disable version control
 (setq vc-handled-backends ())
@@ -100,6 +96,15 @@
 
 (setq explicit-shell-file-name "/bin/bash")
 
+(require 'org)
+(setq org-default-notes-file "~/Documents/org/todo.org")
+(setq org-cycle-separator-lines 2)
+(setq org-archive-location "::* Archived")
+(setq org-latex-pdf-process '("xelatex %f"))
+(setq org-capture-templates
+      '(("i" "Inbox" entry (file+headline org-default-notes-file "Inbox")
+         "** %?")))
+
 ;;; ---------------------------------------------------------------------------
 ;;;
 ;;; whitespace highlighting
@@ -136,8 +141,7 @@
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc"))
+         ("\\.markdown\\'" . markdown-mode)))
 
 ;;; --------------------------------------------------------------------------
 ;;;
@@ -149,60 +153,52 @@
   :defer t
   :bind ("C-c g" . writegood-mode))
 
+(use-package typst-ts-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.typ\\'" . typst-ts-mode)))
+
 ;;; --------------------------------------------------------------------------
 ;;;
 ;;; lsp  packages
 ;;;
 ;;; --------------------------------------------------------------------------
-(use-package corfu
+(use-package company
   :ensure t
-  :custom
-  (corfu-cycle t)
-  (corfu-separator ?\s)
-  (corfu-scroll-margin 5)
-  :init
-  (global-corfu-mode))
+  :hook (after-init . global-company-mode)
+  :bind
+  ;; Bind TAB in the global map effectively, but ONLY for company-mode
+  (:map company-mode-map
+        ("<tab>" . company-indent-or-complete-common)
+        ("TAB" . company-indent-or-complete-common)))
 
 (use-package verilog-ts-mode
   :ensure t
   :init
   (add-to-list 'auto-mode-alist '("\\.s?vh?\\'" . verilog-ts-mode)))
 
-
 (use-package emacs
   :init
-  (setq completion-cycle-threshold 3)
-  (setq tab-always-indent 'complete)
   (setq treesit-language-source-alist
         '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
           (python "https://github.com/tree-sitter/tree-sitter-python")
           (c "https://github.com/tree-sitter/tree-sitter-c")
           (java "https://github.com/tree-sitter/tree-sitter-java")
-          (verilog "https://github.com/gmlarumbe/tree-sitter-systemverilog")
-          (rust "https://github.com/tree-sitter/tree-sitter-rust")))
+          (rust "https://github.com/tree-sitter/tree-sitter-rust")
+          (typst "https://github.com/uben0/tree-sitter-typst")))
   (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
   (setq major-mode-remap-alist '((c++-mode . c++-ts-mode)
                                  (python-mode . python-ts-mode)
                                  (c-mode . c-ts-mode)
                                  (java-mode . java-ts-mode))))
 
-(use-package vertico
-  :ensure t
-  :init
-  (vertico-mode))
-
-(use-package orderless
-  :ensure t
-  :init
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
-
 (use-package eglot
   :ensure t
   :config
   (add-to-list 'eglot-server-programs
                '(verilog-ts-mode . ("verible-verilog-ls")))
+  (add-to-list 'eglot-server-programs
+               '(typst-ts-mode . ("tinymist")))
   (setq eglot-events-buffer-size 0)
   (fset #'jsonrpc--log-event #'ignore)
   (setq eglot-ignored-server-capabilites '((:inlayHintProvider
@@ -212,12 +208,33 @@
   (add-hook 'python-ts-mode-hook 'eglot-ensure)
   (add-hook 'java-ts-mode-hook 'eglot-ensure)
   (add-hook 'verilog-ts-mode-hook 'eglot-ensure)
-  (add-hook 'rust-ts-mode-hook 'eglot-ensure))
+  (add-hook 'rust-ts-mode-hook 'eglot-ensure)
+  (add-hook 'typst-ts-mode-hook 'eglot-ensure))
 
 (use-package eat
   :ensure t
   :config
-  (setq eat-kill-buffer-on-exit t))
+  (setq eat-kill-buffer-on-exit t)
+  :hook (eat-mode . (lambda ()
+                      (company-mode -1))))
+
+(use-package elfeed
+    :ensure t
+    :defer t
+    :bind ("C-x w" . elfeed)
+    :init
+    (setq elfeed-feeds
+          '("http://planet.emacslife.com/atom.xml"
+            "http://planet.gnome.org/rss20.xml"
+            "https://www.phoronix.com/rss.php"
+            "https://blogs.gnome.org/shell-dev/rss"
+            "https://lemire.me/blog/feed/"
+            "http://fedoraplanet.org/rss20.xml"
+            "https://hackaday.com/feed"
+            "https://inside.java/feed.xml"
+            "https://hackaday.com/feed/"
+            "https://calnewport.com/blog/feed/"
+            "https://xkcd.com/atom.xml")))
 
 ;; --------------------------------------------------------------------------
 ;;http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/
