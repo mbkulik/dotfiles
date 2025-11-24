@@ -211,12 +211,10 @@
   (add-hook 'rust-ts-mode-hook 'eglot-ensure)
   (add-hook 'typst-ts-mode-hook 'eglot-ensure))
 
-(use-package eat
+(use-package terminal-here
   :ensure t
   :config
-  (setq eat-kill-buffer-on-exit t)
-  :hook (eat-mode . (lambda ()
-                      (company-mode -1))))
+  (global-set-key (kbd "C-x t") #'terminal-here-launch))
 
 (use-package elfeed
     :ensure t
@@ -241,10 +239,6 @@
 ;; --------------------------------------------------------------------------
 (global-set-key (kbd "C-x k") #'(lambda() (interactive)
                                   (kill-buffer (current-buffer))))
-
-(global-set-key (kbd "C-x t") #'eat)
-
-(global-set-key (kbd "C-x p") #'eat-send-password)
 
 (global-set-key (kbd "C-x e") #'(lambda() (interactive)
                                   (flymake-show-buffer-diagnostics)))
