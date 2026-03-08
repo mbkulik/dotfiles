@@ -165,12 +165,13 @@
 ;;; --------------------------------------------------------------------------
 (use-package company
   :ensure t
-  :hook (after-init . global-company-mode)
-  :bind
-  ;; Bind TAB in the global map effectively, but ONLY for company-mode
-  (:map company-mode-map
-        ("<tab>" . company-indent-or-complete-common)
-        ("TAB" . company-indent-or-complete-common)))
+  :config
+  (global-company-mode)
+  (setq company-backends '(company-capf company-dabbrev-code company-dabbrev))
+  (setq company-idle-delay 0.2)
+  (setq company-minimum-prefix-length 1)
+  :hook
+  (org-mode . (lambda () (company-mode -1))))
 
 (use-package verilog-ts-mode
   :ensure t
